@@ -1,0 +1,9 @@
+table thead {
+    background: linear-gradient(90deg, rgb(5, 103, 87) 0%, #002d38 70%);
+    color:white;
+    text-shadow:1px 1px 2px #002d38;
+}
+
+table {
+    margin-top: -1px;
+}

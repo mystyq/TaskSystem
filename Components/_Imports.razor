@@ -1,0 +1,17 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using static TaskSystem.CustomRenderModes
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using TaskSystem
+@using TaskSystem.Components
+@using TaskSystem.Data;
+@using Microsoft.EntityFrameworkCore
+@using TaskSystem.Services;
+
+@inject IDbContextFactory<DatabaseContext> _contextFactory;
+@inject NavigationManager NavigationManager;

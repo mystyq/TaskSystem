@@ -1,0 +1,217 @@
+﻿@page "/"
+@page "/tasks"
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Tasks Overview</PageTitle>
+
+<div class="row-fluid mb-2">
+    <button class="btn btn-sm btn-dark" @onclick="GotoCreate">Create Task</button>
+    <button class="btn btn-sm btn-danger" @onclick="ClearTasks">Clear Tasks</button>
+</div>
+@if (_tasksStaged is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (_tasksStaged is not null)
+{
+    <div class="mt-4 mb-4">
+        <h6 class="badge bg-dark m-0 w-100 text-start rounded-0 rounded-top">Staged</h6>
+        <table class="table table-sm table-borderless table-responsive">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in _tasksStaged!)
+                {
+                    <tr @key=task>
+                        <td>@task.Id</td>
+                        <td>@task.Title</td>
+                        <td>@task.Description</td>
+                        <td>@task.DateCreated</td>
+                        <td>
+                            <select @onchange="(e => StatusChanged(e, task))">
+                            @foreach (var type in Enum.GetValues(typeof(Data.Enums.Status)))
+                            {
+                                if (task.Status == (Data.Enums.Status)type)
+                                {
+                                    <option value="@type" selected>@type</option>
+                                }
+                                else
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            }
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>        
+    </div>
+}
+@if (_tasksInProgress is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (_tasksInProgress is not null)
+{
+    <div class="mt-4 mb-4">
+        <h6 class="badge bg-dark m-0 w-100 text-start rounded-0 rounded-top">In Progress</h6>
+        <table class="table table-sm table-borderless table-responsive">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in _tasksInProgress!)
+                {
+                    <tr @key=task>
+                        <td>@task.Id</td>
+                        <td>@task.Title</td>
+                        <td>@task.Description</td>
+                        <td>@task.DateCreated</td>
+                        <td>
+                            <select @onchange="(e => StatusChanged(e, task))">
+                            @foreach (var type in Enum.GetValues(typeof(Data.Enums.Status)))
+                            {
+                                if (task.Status == (Data.Enums.Status)type)
+                                {
+                                    <option value="@type" selected>@type</option>
+                                }
+                                else
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            }
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@if (_tasksComplete is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (_tasksComplete is not null)
+{
+    <div class="mt-4">
+        <h6 class="badge bg-dark m-0 w-100 text-start rounded-0 rounded-top">Complete</h6>
+        <table class="table table-sm table-borderless table-responsive">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in _tasksComplete!)
+                {
+                    <tr @key=task>
+                        <td>@task.Id</td>
+                        <td>@task.Title</td>
+                        <td>@task.Description</td>
+                        <td>@task.DateCreated</td>
+                        <td>
+                            <select @onchange="(e => StatusChanged(e, task))">
+                            @foreach (var type in Enum.GetValues(typeof(Data.Enums.Status)))
+                            {
+                                if (task.Status == (Data.Enums.Status)type)
+                                {
+                                    <option value="@type" selected>@type</option>
+                                }
+                                else
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            }
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@inject UpdateTitleService updateTitleService
+@code {
+    #pragma warning disable CS4014
+    #pragma warning disable CS1998
+    private DatabaseContext? _context;
+    private Data.Models.Task[]? _tasksStaged;
+    private Data.Models.Task[]? _tasksInProgress;
+    private Data.Models.Task[]? _tasksComplete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetTasks();
+
+        updateTitleService.UpdateTitle("Tasks Overview");
+    }
+
+    private void GotoCreate()
+    {
+        NavigationManager.NavigateTo("/create");
+    }
+
+    private void ClearTasks()
+    {
+        _context ??= _contextFactory.CreateDbContext();
+
+        _context.Database.ExecuteSqlRaw("DELETE FROM Tasks");
+        _context.Database.ExecuteSqlRaw("DELETE FROM SQLITE_SEQUENCE WHERE name='Tasks'");
+
+        GetTasks();
+    }
+
+    private async Task GetTasks()
+    {
+        _context ??= _contextFactory.CreateDbContext();
+
+        var tasks = _context.Tasks.ToArray();
+
+        _tasksStaged = (from x in tasks
+                        where x.Status == Data.Enums.Status.Staged
+                        select x).ToArray();
+
+        _tasksInProgress = (from x in tasks
+                            where x.Status == Data.Enums.Status.InProgress
+                            select x).ToArray();
+
+        _tasksComplete = (from x in _context.Tasks
+                          where x.Status == Data.Enums.Status.Complete
+                          select x).ToArray();
+    }
+
+    private void StatusChanged(ChangeEventArgs e, Data.Models.Task task)
+    {
+        _context ??= _contextFactory.CreateDbContext();
+
+        if (Enum.TryParse<Data.Enums.Status>(e.Value?.ToString(), out var status))
+        {
+            task.Status = status;
+            _context.Tasks.Update(task);
+            _context.SaveChanges();
+
+            GetTasks();
+        }
+    }
+}
