@@ -24,6 +24,10 @@ main {
     -webkit-user-select: none;
 }
 
+    .top-row .lead {
+        font-size:1em;
+    }
+
     .top-row ::deep a, .top-row ::deep .btn-link {
         white-space: nowrap;
         margin-left: 1.5rem;
