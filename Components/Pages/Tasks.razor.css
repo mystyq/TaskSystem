@@ -10,13 +10,12 @@ table {
 }
 
 .btn-createtask {
-    border: #002d38 2px solid;
-    background: rgb(5, 103, 87, 0.3);
-    color: #001318;
+    border: rgba(5, 103, 87, 0.6) 2px solid;
+    background: rgba(5, 103, 87, 0.3);
+    color: rgba(3, 51, 43, 0.7);
 }
 
 .btn-createtask:hover {
-    background: linear-gradient(180deg, rgba(5, 103, 87, 0.7) 0%, #002d38 100%);
     background: rgb(5, 103, 87);
     color:white;
     text-shadow:1px 1px 2px #002d38;
