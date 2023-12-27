@@ -6,7 +6,7 @@ namespace TaskSystem.Data.Enums
     {
         [Display(Name="Staged")]
         Staged,
-        [Display(Name="InProgress")]
+        [Display(Name="In Progress")]
         InProgress,
         [Display(Name="Complete")]
         Complete

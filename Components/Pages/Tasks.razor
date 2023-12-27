@@ -37,15 +37,15 @@ else if (_tasksStaged is not null)
                         <td>@task.DateCreated</td>
                         <td>
                             <select @onchange="(e => StatusChanged(e, task))">
-                            @foreach (var type in Enum.GetValues(typeof(Data.Enums.Status)))
+                            @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
                             {
-                                if (task.Status == (Data.Enums.Status)type)
+                                if (task.Status == type)
                                 {
-                                    <option value="@type" selected>@type</option>
+                                    <option value="@type" selected>@type.GetDisplayName()</option>
                                 }
                                 else
                                 {
-                                    <option value="@type">@type</option>
+                                    <option value="@type">@type.GetDisplayName()</option>
                                 }
                             }
                             </select>
@@ -84,15 +84,15 @@ else if (_tasksInProgress is not null)
                         <td>@task.DateCreated</td>
                         <td>
                             <select @onchange="(e => StatusChanged(e, task))">
-                            @foreach (var type in Enum.GetValues(typeof(Data.Enums.Status)))
+                            @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
                             {
-                                if (task.Status == (Data.Enums.Status)type)
+                                if (task.Status == type)
                                 {
-                                    <option value="@type" selected>@type</option>
+                                    <option value="@type" selected>@type.GetDisplayName()</option>
                                 }
                                 else
                                 {
-                                    <option value="@type">@type</option>
+                                    <option value="@type">@type.GetDisplayName()</option>
                                 }
                             }
                             </select>
@@ -131,15 +131,15 @@ else if (_tasksComplete is not null)
                         <td>@task.DateCreated</td>
                         <td>
                             <select @onchange="(e => StatusChanged(e, task))">
-                            @foreach (var type in Enum.GetValues(typeof(Data.Enums.Status)))
+                            @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
                             {
-                                if (task.Status == (Data.Enums.Status)type)
+                                if (task.Status == type)
                                 {
-                                    <option value="@type" selected>@type</option>
+                                    <option value="@type" selected>@type.GetDisplayName()</option>
                                 }
                                 else
                                 {
-                                    <option value="@type">@type</option>
+                                    <option value="@type">@type.GetDisplayName()</option>
                                 }
                             }
                             </select>
