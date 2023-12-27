@@ -2,8 +2,32 @@ table thead {
     background: linear-gradient(90deg, rgb(5, 103, 87) 0%, #002d38 70%);
     color:white;
     text-shadow:1px 1px 2px #002d38;
+    font-size:0.8em;
 }
 
 table {
     margin-top: -1px;
+}
+
+.btn-createtask {
+    border: #002d38 2px solid;
+    background: rgb(5, 103, 87, 0.3);
+}
+
+.btn-createtask:hover {
+    background: linear-gradient(180deg, rgba(5, 103, 87, 0.7) 0%, #002d38 100%);
+    color:white;
+    text-shadow:1px 1px 2px #002d38;
+}
+
+.no-transition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+.btn-danger {
+    border:#9b1a27 2px solid;
+    text-shadow: 1px 1px 2px #700b15;
 }

@@ -6,8 +6,8 @@
 <PageTitle>Tasks Overview</PageTitle>
 
 <div class="row-fluid mb-2">
-    <button class="btn btn-sm btn-dark" @onclick="GotoCreate">Create Task</button>
-    <button class="btn btn-sm btn-danger" @onclick="ClearTasks">Clear Tasks</button>
+    <button class="btn btn-sm btn-createtask no-transition" @onclick="GotoCreate">Create Task</button>
+    <button class="btn btn-sm btn-danger no-transition" @onclick="ClearTasks">Clear Tasks</button>
 </div>
 @if (_tasksStaged is null)
 {
@@ -23,7 +23,7 @@ else if (_tasksStaged is not null)
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Date Created</th>
+                    <th>Created</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -70,7 +70,7 @@ else if (_tasksInProgress is not null)
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Date Created</th>
+                    <th>Created</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -117,7 +117,7 @@ else if (_tasksComplete is not null)
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Date Created</th>
+                    <th>Created</th>
                     <th>Status</th>
                 </tr>
             </thead>

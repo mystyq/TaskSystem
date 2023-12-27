@@ -19,6 +19,9 @@ main {
     height: 3.5rem;
     display: flex;
     align-items: center;
+    user-select:none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
     .top-row ::deep a, .top-row ::deep .btn-link {
