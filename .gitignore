@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 
 #user generated
 Data/tasks.db
+*.db
