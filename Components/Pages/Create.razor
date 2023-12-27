@@ -6,7 +6,7 @@
 <EditForm EditContext="_editContext" OnValidSubmit="@CreateTask" FormName="CreateTaskForm">
     <div class="form-group mb-2">
         <label for="@nameof(_task.Title)">@nameof(_task.Title)</label>
-        <input id="@nameof(_task.Title)" @bind="_task.Title" class="form-control" />
+        <input @ref="_iautofocus" id="@nameof(_task.Title)" @bind="_task.Title" class="form-control" />
         <ValidationMessage For="() => _task.Title" />
     </div>
     <div class="form-group mb-2">
@@ -27,7 +27,16 @@
     private EditContext? _editContext;
 
     private ValidationMessageStore? _messageStore;
+    
+    private ElementReference _iautofocus;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _iautofocus.FocusAsync();
+        }
+    }
     protected override void OnInitialized()
     {
         _context ??= _contextFactory.CreateDbContext();
