@@ -57,7 +57,7 @@
         _context?.Tasks.Add(_task);
         _context?.SaveChanges();
         
-        NavigationManager.NavigateTo("/tasks");
+        NavigationManager.NavigateTo("tasks");
     }
 
     private void HandleValidationRequested(object? sender, ValidationRequestedEventArgs args)
