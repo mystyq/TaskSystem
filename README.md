@@ -5,3 +5,6 @@ This project explores Blazor - highlighting the usage of component lifecycles, s
 
 To generate the database run:
 `dotnet-ef database update`
+
+# Working Demo
+https://tasks.andromack.com
