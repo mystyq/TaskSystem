@@ -25,6 +25,7 @@ else if (_tasksStaged is not null)
                     <th>Description</th>
                     <th>Created</th>
                     <th>Status</th>
+                    <th>Priority</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,6 +51,7 @@ else if (_tasksStaged is not null)
                             }
                             </select>
                         </td>
+                        <td>@task.Priority</td>
                     </tr>
                 }
             </tbody>
@@ -72,6 +74,7 @@ else if (_tasksInProgress is not null)
                     <th>Description</th>
                     <th>Created</th>
                     <th>Status</th>
+                    <th>Priority</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,6 +100,7 @@ else if (_tasksInProgress is not null)
                             }
                             </select>
                         </td>
+                        <td>@task.Priority</td>
                     </tr>
                 }
             </tbody>
@@ -119,6 +123,7 @@ else if (_tasksComplete is not null)
                     <th>Description</th>
                     <th>Created</th>
                     <th>Status</th>
+                    <th>Priority</th>
                 </tr>
             </thead>
             <tbody>
@@ -144,6 +149,7 @@ else if (_tasksComplete is not null)
                             }
                             </select>
                         </td>
+                        <td>@task.Priority</td>
                     </tr>
                 }
             </tbody>

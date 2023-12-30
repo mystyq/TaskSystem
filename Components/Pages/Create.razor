@@ -1,4 +1,5 @@
 ﻿@page "/create"
+@using TaskSystem.Data.Enums
 @rendermode InteractiveServer
 
 <PageTitle>Create Task</PageTitle>
@@ -14,6 +15,20 @@
         <input id="@nameof(_task.Description)" @bind="_task.Description" class="form-control" />
         <ValidationMessage For="() => _task.Description" />
     </div>
+    <div class="form-group mb-2">
+        <label for="@nameof(_task.Comment)">@nameof(_task.Comment)</label>
+        <input id="@nameof(_task.Comment)" @bind="_task.Comment" class="form-control" />
+        <ValidationMessage For="() => _task.Comment" />
+    </div>
+    <div class="form-group mb-2">
+        <label for="@nameof(_task.Priority)">@nameof(_task.Priority)</label>
+        <select id="@nameof(_task.Priority)" @bind="_task.Priority" class="form-control">
+            @foreach(var priority in Data.Enums.Priority.GetValues(typeof(Priority)))
+            {
+                <option value="@priority">@priority</option>
+            }
+        </select>
+    </div>
     <button type="submit" class="btn btn-dark">Create</button>
 </EditForm>
 
@@ -27,7 +42,7 @@
     private EditContext? _editContext;
 
     private ValidationMessageStore? _messageStore;
-    
+
     private ElementReference _iautofocus;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
