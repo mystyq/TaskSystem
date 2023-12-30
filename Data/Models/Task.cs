@@ -9,5 +9,7 @@ namespace TaskSystem.Data.Models
         public string? Description { get; set; }
         public DateTime? DateCreated { get; set; }
         public Status? Status { get; set; }
+        public Priority? Priority { get; set; }
+        public string? Comment { get; set; }
     }
 }
