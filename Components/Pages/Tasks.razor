@@ -7,7 +7,7 @@
 
 <div class="row-fluid mb-2">
     <button class="btn btn-sm btn-createtask no-transition" @onclick="GotoCreate">Create Task</button>
-    <button class="btn btn-sm btn-danger no-transition" @onclick="ClearTasks">Clear Tasks</button>
+    <button class="btn btn-sm btn-danger no-transition" @onclick="OpenClearTasksModal">Clear Tasks</button>
 </div>
 @if (_tasksStaged is null)
 {
@@ -157,6 +157,15 @@ else if (_tasksComplete is not null)
     </div>
 }
 
+@if (ClearTasksModalOpen)
+{
+    <Modal OnClose="ClearTasksModalOnClose" 
+           Title="Clear Tasks"
+           Body="Are you sure you want to clear tasks?"
+           Buttons="Modal.ButtonType.DeleteCancel">
+    </Modal>
+}
+
 @inject UpdateTitleService updateTitleService
 @code {
     #pragma warning disable CS4014
@@ -165,6 +174,23 @@ else if (_tasksComplete is not null)
     private Data.Models.Task[]? _tasksStaged;
     private Data.Models.Task[]? _tasksInProgress;
     private Data.Models.Task[]? _tasksComplete;
+    private bool ClearTasksModalOpen { get; set; }
+
+    private void ClearTasksModalOnClose(bool clearTasks)
+    {
+        if (clearTasks) this.ClearTasks();
+
+        this.ClearTasksModalOpen = false;
+        
+        StateHasChanged();
+    }
+
+    private void OpenClearTasksModal()
+    {
+        this.ClearTasksModalOpen = true;
+
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
