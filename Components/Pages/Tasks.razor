@@ -207,7 +207,7 @@ else if (_tasksComplete is not null)
 
     private void GotoCreate()
     {
-        NavigationManager.NavigateTo("create");
+        NavigationManager.NavigateTo("task");
     }
 
     private void ClearTasks()
@@ -222,7 +222,7 @@ else if (_tasksComplete is not null)
 
     void EditTask(int id)
     {
-        NavigationManager.NavigateTo($"/create/{id}");
+        NavigationManager.NavigateTo($"task/{id}");
     }
 
     private async Task GetTasks()

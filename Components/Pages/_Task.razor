@@ -1,5 +1,5 @@
-﻿@page "/create"
-@page "/create/{Id:int}"
+﻿@page "/task"
+@page "/task/{Id:int}"
 @rendermode InteractiveServer
 
 <PageTitle>Create Task</PageTitle>
@@ -31,8 +31,6 @@
     </div>
     <button type="submit" class="btn btn-dark">Save</button>
 </EditForm>
-
-
 
 @implements IDisposable
 @inject UpdateTitleService updateTitleService
