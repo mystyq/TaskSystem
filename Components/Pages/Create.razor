@@ -1,10 +1,10 @@
 ﻿@page "/create"
-@using TaskSystem.Data.Enums
+@page "/create/{Id:int}"
 @rendermode InteractiveServer
 
 <PageTitle>Create Task</PageTitle>
 
-<EditForm EditContext="_editContext" OnValidSubmit="@CreateTask" FormName="CreateTaskForm">
+<EditForm EditContext="_editContext" OnValidSubmit="@HandleValidSubmit" FormName="CreateTaskForm">
     <div class="form-group mb-2">
         <label for="@nameof(_task.Title)">@nameof(_task.Title)</label>
         <input @ref="_iautofocus" id="@nameof(_task.Title)" @bind="_task.Title" class="form-control" />
@@ -17,7 +17,7 @@
     </div>
     <div class="form-group mb-2">
         <label for="@nameof(_task.Comment)">@nameof(_task.Comment)</label>
-        <input id="@nameof(_task.Comment)" @bind="_task.Comment" class="form-control" />
+        <InputTextArea id="@nameof(_task.Comment)" @bind-Value="_task.Comment" class="form-control" />
         <ValidationMessage For="() => _task.Comment" />
     </div>
     <div class="form-group mb-2">
@@ -29,8 +29,10 @@
             }
         </select>
     </div>
-    <button type="submit" class="btn btn-dark">Create</button>
+    <button type="submit" class="btn btn-dark">Save</button>
 </EditForm>
+
+
 
 @implements IDisposable
 @inject UpdateTitleService updateTitleService
@@ -44,6 +46,21 @@
     private ValidationMessageStore? _messageStore;
 
     private ElementReference _iautofocus;
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(Id is not null)
+        {
+            var task = await _context.Tasks.FindAsync(Id);
+            if(task is not null)
+            {
+                _task = task;
+            }
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -59,19 +76,33 @@
         _editContext.OnValidationRequested += HandleValidationRequested;
         _messageStore = new(_editContext);
 
-        updateTitleService.UpdateTitle("Create Task");
+        if(Id is null)
+        {
+            updateTitleService.UpdateTitle("Create Task");
+        }
+        else
+        {
+            updateTitleService.UpdateTitle("Edit Task");
+        }
     }
 
-    private void CreateTask()
+    private void HandleValidSubmit()
     {
         _context ??= _contextFactory.CreateDbContext();
 
-        _task.DateCreated = DateTime.Now;
-        _task.Status = Data.Enums.Status.Staged;
+        if (Id is not null)
+        {
+            _context.Tasks.Update(_task);
+        }
+        else
+        {
+            _task.DateCreated = DateTime.Now;
+            _task.Status = Data.Enums.Status.Staged;
 
-        _context?.Tasks.Add(_task);
-        _context?.SaveChanges();
+            _context?.Tasks.Add(_task);
+        }
         
+        _context?.SaveChanges();
         NavigationManager.NavigateTo("tasks");
     }
 
