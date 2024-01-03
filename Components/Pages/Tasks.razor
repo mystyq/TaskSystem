@@ -53,7 +53,10 @@ else if (_tasksStaged is not null)
                             </select>
                         </td>
                         <td>@task.Priority</td>
-                        <td><button class="btn btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button>
+                            <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteTask(task))">Delete</button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -104,7 +107,10 @@ else if (_tasksInProgress is not null)
                             </select>
                         </td>
                         <td>@task.Priority</td>
-                        <td><button class="btn btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button>
+                            <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteTask(task))">Delete</button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -155,7 +161,10 @@ else if (_tasksComplete is not null)
                             </select>
                         </td>
                         <td>@task.Priority</td>
-                        <td><button class="btn btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button>
+                            <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteTask(task))">Delete</button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -220,9 +229,19 @@ else if (_tasksComplete is not null)
         GetTasks();
     }
 
-    void EditTask(int id)
+    private void EditTask(int id)
     {
         NavigationManager.NavigateTo($"task/{id}");
+    }
+
+    private void DeleteTask(Data.Models.Task task)
+    {
+        task.Archived = true;
+
+        _context?.Tasks.Update(task);
+        _context?.SaveChanges();
+
+        this.GetTasks();
     }
 
     private async Task GetTasks()
@@ -232,15 +251,15 @@ else if (_tasksComplete is not null)
         var tasks = _context.Tasks.ToArray();
 
         _tasksStaged = (from x in tasks
-                        where x.Status == Data.Enums.Status.Staged
+                        where x.Status == Data.Enums.Status.Staged && x.Archived == false
                         select x).ToArray();
 
         _tasksInProgress = (from x in tasks
-                            where x.Status == Data.Enums.Status.InProgress
+                            where x.Status == Data.Enums.Status.InProgress && x.Archived == false
                             select x).ToArray();
 
         _tasksComplete = (from x in _context.Tasks
-                          where x.Status == Data.Enums.Status.Complete
+                          where x.Status == Data.Enums.Status.Complete && x.Archived == false
                           select x).ToArray();
     }
 
