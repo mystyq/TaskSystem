@@ -278,6 +278,9 @@ else if (_tasksComplete is not null)
 
         if (Enum.TryParse<Data.Enums.Status>(e.Value?.ToString(), out var status))
         {
+            if (task.Status > status)
+                return;
+
             task.Status = status;
             _context.Tasks.Update(task);
             _context.SaveChanges();
