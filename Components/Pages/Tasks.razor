@@ -39,17 +39,20 @@ else if (_tasksStaged is not null)
                         <td>@task.DateCreated</td>
                         <td>
                             <select @onchange="(e => StatusChanged(e, task))">
-                            @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
-                            {
-                                if (task.Status == type)
+                                @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
                                 {
-                                    <option value="@type" selected>@type.GetDisplayName()</option>
+                                    if (task.Status > type)
+                                        continue;
+
+                                    if (task.Status == type)
+                                    {
+                                        <option value="@type" selected>@type.GetDisplayName()</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@type">@type.GetDisplayName()</option>
+                                    }
                                 }
-                                else
-                                {
-                                    <option value="@type">@type.GetDisplayName()</option>
-                                }
-                            }
                             </select>
                         </td>
                         <td>@task.Priority</td>
@@ -60,7 +63,7 @@ else if (_tasksStaged is not null)
                     </tr>
                 }
             </tbody>
-        </table>        
+        </table>
     </div>
 }
 @if (_tasksInProgress is null)
@@ -93,17 +96,20 @@ else if (_tasksInProgress is not null)
                         <td>@task.DateCreated</td>
                         <td>
                             <select @onchange="(e => StatusChanged(e, task))">
-                            @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
-                            {
-                                if (task.Status == type)
+                                @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
                                 {
-                                    <option value="@type" selected>@type.GetDisplayName()</option>
+                                    if (task.Status > type)
+                                        continue;
+
+                                    if (task.Status == type)
+                                    {
+                                        <option value="@type" selected>@type.GetDisplayName()</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@type">@type.GetDisplayName()</option>
+                                    }
                                 }
-                                else
-                                {
-                                    <option value="@type">@type.GetDisplayName()</option>
-                                }
-                            }
                             </select>
                         </td>
                         <td>@task.Priority</td>
@@ -147,17 +153,20 @@ else if (_tasksComplete is not null)
                         <td>@task.DateCreated</td>
                         <td>
                             <select @onchange="(e => StatusChanged(e, task))">
-                            @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
-                            {
-                                if (task.Status == type)
+                                @foreach (Data.Enums.Status type in Enum.GetValues(typeof(Data.Enums.Status)))
                                 {
-                                    <option value="@type" selected>@type.GetDisplayName()</option>
+                                    if (task.Status > type)
+                                        continue;
+
+                                    if (task.Status == type)
+                                    {
+                                        <option value="@type" selected>@type.GetDisplayName()</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@type">@type.GetDisplayName()</option>
+                                    }
                                 }
-                                else
-                                {
-                                    <option value="@type">@type.GetDisplayName()</option>
-                                }
-                            }
                             </select>
                         </td>
                         <td>@task.Priority</td>
@@ -174,7 +183,7 @@ else if (_tasksComplete is not null)
 
 @if (ClearTasksModalOpen)
 {
-    <Modal OnClose="ClearTasksModalOnClose" 
+    <Modal OnClose="ClearTasksModalOnClose"
            Title="Clear Tasks"
            Body="Are you sure you want to clear tasks?"
            Buttons="Modal.ButtonType.DeleteCancel">
@@ -183,8 +192,8 @@ else if (_tasksComplete is not null)
 
 @inject UpdateTitleService updateTitleService
 @code {
-    #pragma warning disable CS4014
-    #pragma warning disable CS1998
+#pragma warning disable CS4014
+#pragma warning disable CS1998
     private DatabaseContext? _context;
     private Data.Models.Task[]? _tasksStaged;
     private Data.Models.Task[]? _tasksInProgress;
@@ -196,7 +205,7 @@ else if (_tasksComplete is not null)
         if (clearTasks) this.ClearTasks();
 
         this.ClearTasksModalOpen = false;
-        
+
         StateHasChanged();
     }
 
