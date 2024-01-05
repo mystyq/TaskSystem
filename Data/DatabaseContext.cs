@@ -14,6 +14,9 @@ namespace TaskSystem.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_configuration.GetConnectionString("tasks.db"));
+#if DEBUG
+            optionsBuilder.LogTo(Console.WriteLine);
+#endif
         }
 
         public DbSet<Models.Task> Tasks { get; set; }
