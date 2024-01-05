@@ -82,17 +82,17 @@
         }
     }
 
-    private void HandleValidSubmit()
+    private async void HandleValidSubmit()
     {
         if (Id is not null)
         {
-            TaskService.UpdateTaskAsync(_task);
+            await TaskService.UpdateTaskAsync(_task);
         }
         else
         {
             _task.DateCreated = DateTime.Now;
             _task.Status = Data.Enums.Status.Staged;
-            TaskService.AddTaskAsync(_task);
+            await TaskService.AddTaskAsync(_task);
         }
         
         NavigationManager.NavigateTo("tasks");
