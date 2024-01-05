@@ -195,7 +195,6 @@ else if (_tasksComplete is not null)
 @code {
 #pragma warning disable CS4014
 #pragma warning disable CS1998
-    private DatabaseContext? _context;
     private List<Data.Models.Task>? _tasksStaged;
     private List<Data.Models.Task>? _tasksInProgress;
     private List<Data.Models.Task>? _tasksComplete;
@@ -258,9 +257,6 @@ else if (_tasksComplete is not null)
     {
         if (Enum.TryParse<Data.Enums.Status>(e.Value?.ToString(), out var status))
         {
-            if (task.Status > status)
-                return;
-
             task.Status = status;
             await TaskService.UpdateTaskAsync(task);
             await GetTasks();
