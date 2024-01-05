@@ -257,7 +257,7 @@ else if (_tasksComplete is not null)
     {
         if (Enum.TryParse<Data.Enums.Status>(e.Value?.ToString(), out var status))
         {
-            task.Status = status;
+            task.SetStatus(status);
             await TaskService.UpdateTaskAsync(task);
             await GetTasks();
         }

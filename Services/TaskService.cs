@@ -51,8 +51,11 @@ namespace TaskSystem.Services
 
         public async Task UpdateTaskAsync(Data.Models.Task task)
         {
-            _context.Tasks.Update(task);
-            await _context.SaveChangesAsync();
+            if (_context.Entry(task).State == EntityState.Modified)
+            {
+                _context.Tasks.Update(task);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

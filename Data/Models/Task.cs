@@ -12,14 +12,21 @@ namespace TaskSystem.Data.Models
         public Status? Status
         {
             get => _status;
-            set
+            private set
             {
-                if (_status < value)
-                    _status = value;
+                _status = value;
             }
         }
         public Priority? Priority { get; set; } = Enums.Priority.None;
         public string? Comment { get; set; }
         public bool? Archived { get; set; } = false;
+
+        public void SetStatus(Status status)
+        {
+            if (status <= _status)
+                return;
+
+            this.Status = status;
+        }
     }
 }

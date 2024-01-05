@@ -91,7 +91,7 @@
         else
         {
             _task.DateCreated = DateTime.Now;
-            _task.Status = Data.Enums.Status.Staged;
+            _task.SetStatus(Data.Enums.Status.Staged);
             await TaskService.AddTaskAsync(_task);
         }
         
