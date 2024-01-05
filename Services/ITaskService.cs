@@ -1,8 +1,10 @@
-﻿namespace TaskSystem.Services
+﻿using System.Linq.Expressions;
+
+namespace TaskSystem.Services
 {
     public interface ITaskService
     {
-        Task<List<Data.Models.Task>> GetAllTasksAsync();
+        Task<List<Data.Models.Task>> GetAllTasksAsync(Expression<Func<Data.Models.Task, bool>>? filter = null);
 
         Task<Data.Models.Task> GetTaskByIdAsync(int? id);
 

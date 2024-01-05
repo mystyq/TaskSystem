@@ -1,4 +1,5 @@
 ﻿
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using TaskSystem.Data;
 
@@ -30,9 +31,9 @@ namespace TaskSystem.Services
             }
         }
 
-        public async Task<List<Data.Models.Task>> GetAllTasksAsync()
+        public async Task<List<Data.Models.Task>> GetAllTasksAsync(Expression<Func<Data.Models.Task, bool>>? filter = null)
         {
-            var tasks = await _context.Tasks.ToListAsync();
+            var tasks = await _context.Tasks.Where(filter ?? ((x) => true)).ToListAsync();
             return tasks;
         }
 

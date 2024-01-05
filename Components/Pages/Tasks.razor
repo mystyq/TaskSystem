@@ -187,9 +187,9 @@ else if (_tasksComplete is not null)
     #pragma warning disable CS4014
     #pragma warning disable CS1998
     private DatabaseContext? _context;
-    private Data.Models.Task[]? _tasksStaged;
-    private Data.Models.Task[]? _tasksInProgress;
-    private Data.Models.Task[]? _tasksComplete;
+    private List<Data.Models.Task>? _tasksStaged;
+    private List<Data.Models.Task>? _tasksInProgress;
+    private List<Data.Models.Task>? _tasksComplete;
     private bool ClearTasksModalOpen { get; set; }
 
     private void ClearTasksModalOnClose(bool clearTasks)
@@ -223,7 +223,7 @@ else if (_tasksComplete is not null)
     private async void ClearTasks()
     {
         await TaskService.DeleteAllTasksAsync();
-        GetTasks();
+        await GetTasks();
     }
 
     private void EditTask(int id)
@@ -235,24 +235,14 @@ else if (_tasksComplete is not null)
     {
         task.Archived = true;
         await TaskService.UpdateTaskAsync(task);
-        this.GetTasks();
+        await GetTasks();
     }
 
     private async Task GetTasks()
     {
-        var tasks = await TaskService.GetAllTasksAsync();
-
-        _tasksStaged = (from x in tasks
-                        where x.Status == Data.Enums.Status.Staged && x.Archived == false
-                        select x).ToArray();
-
-        _tasksInProgress = (from x in tasks
-                            where x.Status == Data.Enums.Status.InProgress && x.Archived == false
-                            select x).ToArray();
-
-        _tasksComplete = (from x in tasks
-                          where x.Status == Data.Enums.Status.Complete && x.Archived == false
-                          select x).ToArray();
+        _tasksStaged = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.Staged && x.Archived == false);
+        _tasksInProgress = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.InProgress && x.Archived == false);
+        _tasksComplete = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.Complete && x.Archived == false);
     }
 
     private async void StatusChanged(ChangeEventArgs e, Data.Models.Task task)
@@ -261,7 +251,7 @@ else if (_tasksComplete is not null)
         {
             task.Status = status;
             await TaskService.UpdateTaskAsync(task);
-            GetTasks();
+            await GetTasks();
         }
     }
 }
