@@ -1,6 +1,7 @@
 ﻿@page "/task"
 @page "/task/{Id:int}"
 @rendermode InteractiveServer
+@inject ITaskService TaskService
 
 <PageTitle>Create Task</PageTitle>
 
@@ -35,8 +36,6 @@
 @implements IDisposable
 @inject UpdateTitleService updateTitleService
 @code {
-    private DatabaseContext? _context;
-
     private Data.Models.Task _task = new();
 
     private EditContext? _editContext;
@@ -52,7 +51,7 @@
     {
         if(Id is not null)
         {
-            var task = await _context.Tasks.FindAsync(Id);
+            var task = await TaskService.GetTaskByIdAsync(Id);
             if(task is not null)
             {
                 _task = task;
@@ -69,7 +68,6 @@
     }
     protected override void OnInitialized()
     {
-        _context ??= _contextFactory.CreateDbContext();
         _editContext = new(_task);
         _editContext.OnValidationRequested += HandleValidationRequested;
         _messageStore = new(_editContext);
@@ -86,21 +84,17 @@
 
     private void HandleValidSubmit()
     {
-        _context ??= _contextFactory.CreateDbContext();
-
         if (Id is not null)
         {
-            _context.Tasks.Update(_task);
+            TaskService.UpdateTaskAsync(_task);
         }
         else
         {
             _task.DateCreated = DateTime.Now;
             _task.Status = Data.Enums.Status.Staged;
-
-            _context?.Tasks.Add(_task);
+            TaskService.AddTaskAsync(_task);
         }
         
-        _context?.SaveChanges();
         NavigationManager.NavigateTo("tasks");
     }
 

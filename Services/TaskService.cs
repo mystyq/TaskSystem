@@ -18,9 +18,6 @@ namespace TaskSystem.Services
             var tasks = await _context.Tasks.ToListAsync();
             _context.Tasks.RemoveRange(tasks);
             await _context.SaveChangesAsync();
-
-            //await _context.Database.ExecuteSqlRaw("DELETE FROM Tasks");
-            //await _context.Database.ExecuteSqlRaw("DELETE FROM SQLITE_SEQUENCE WHERE name='Tasks'");
         }
 
         public async Task DeleteTaskAsync(int id)
@@ -39,7 +36,7 @@ namespace TaskSystem.Services
             return tasks;
         }
 
-        public async Task<Data.Models.Task> GetTaskByIdAsync(int id)
+        public async Task<Data.Models.Task> GetTaskByIdAsync(int? id)
         {
             var task = await _context.Tasks.FindAsync(id);
             return task;

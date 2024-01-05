@@ -4,7 +4,7 @@
     {
         Task<List<Data.Models.Task>> GetAllTasksAsync();
 
-        Task<Data.Models.Task> GetTaskByIdAsync(int id);
+        Task<Data.Models.Task> GetTaskByIdAsync(int? id);
 
         Task AddTaskAsync(Data.Models.Task task);
 

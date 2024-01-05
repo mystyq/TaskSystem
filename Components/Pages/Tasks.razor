@@ -197,7 +197,7 @@ else if (_tasksComplete is not null)
         if (clearTasks) this.ClearTasks();
 
         this.ClearTasksModalOpen = false;
-        
+
         StateHasChanged();
     }
 
@@ -220,13 +220,9 @@ else if (_tasksComplete is not null)
         NavigationManager.NavigateTo("task");
     }
 
-    private void ClearTasks()
+    private async void ClearTasks()
     {
-        _context ??= _contextFactory.CreateDbContext();
-
-        _context.Database.ExecuteSqlRaw("DELETE FROM Tasks");
-        _context.Database.ExecuteSqlRaw("DELETE FROM SQLITE_SEQUENCE WHERE name='Tasks'");
-
+        await TaskService.DeleteAllTasksAsync();
         GetTasks();
     }
 
@@ -235,21 +231,16 @@ else if (_tasksComplete is not null)
         NavigationManager.NavigateTo($"task/{id}");
     }
 
-    private void DeleteTask(Data.Models.Task task)
+    private async void DeleteTask(Data.Models.Task task)
     {
         task.Archived = true;
-
-        _context?.Tasks.Update(task);
-        _context?.SaveChanges();
-
+        await TaskService.UpdateTaskAsync(task);
         this.GetTasks();
     }
 
     private async Task GetTasks()
     {
-        _context ??= _contextFactory.CreateDbContext();
-
-        var tasks = _context.Tasks.ToArray();
+        var tasks = await TaskService.GetAllTasksAsync();
 
         _tasksStaged = (from x in tasks
                         where x.Status == Data.Enums.Status.Staged && x.Archived == false
@@ -259,21 +250,17 @@ else if (_tasksComplete is not null)
                             where x.Status == Data.Enums.Status.InProgress && x.Archived == false
                             select x).ToArray();
 
-        _tasksComplete = (from x in _context.Tasks
+        _tasksComplete = (from x in tasks
                           where x.Status == Data.Enums.Status.Complete && x.Archived == false
                           select x).ToArray();
     }
 
-    private void StatusChanged(ChangeEventArgs e, Data.Models.Task task)
+    private async void StatusChanged(ChangeEventArgs e, Data.Models.Task task)
     {
-        _context ??= _contextFactory.CreateDbContext();
-
         if (Enum.TryParse<Data.Enums.Status>(e.Value?.ToString(), out var status))
         {
             task.Status = status;
-            _context.Tasks.Update(task);
-            _context.SaveChanges();
-
+            await TaskService.UpdateTaskAsync(task);
             GetTasks();
         }
     }
