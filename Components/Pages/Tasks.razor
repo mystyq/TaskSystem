@@ -2,6 +2,7 @@
 @page "/tasks"
 @attribute [StreamRendering]
 @rendermode InteractiveServer
+@inject ITaskService TaskService
 
 <PageTitle>Tasks Overview</PageTitle>
 
@@ -195,9 +196,9 @@ else if (_tasksComplete is not null)
 #pragma warning disable CS4014
 #pragma warning disable CS1998
     private DatabaseContext? _context;
-    private Data.Models.Task[]? _tasksStaged;
-    private Data.Models.Task[]? _tasksInProgress;
-    private Data.Models.Task[]? _tasksComplete;
+    private List<Data.Models.Task>? _tasksStaged;
+    private List<Data.Models.Task>? _tasksInProgress;
+    private List<Data.Models.Task>? _tasksComplete;
     private bool ClearTasksModalOpen { get; set; }
 
     private void ClearTasksModalOnClose(bool clearTasks)
@@ -228,14 +229,10 @@ else if (_tasksComplete is not null)
         NavigationManager.NavigateTo("task");
     }
 
-    private void ClearTasks()
+    private async void ClearTasks()
     {
-        _context ??= _contextFactory.CreateDbContext();
-
-        _context.Database.ExecuteSqlRaw("DELETE FROM Tasks");
-        _context.Database.ExecuteSqlRaw("DELETE FROM SQLITE_SEQUENCE WHERE name='Tasks'");
-
-        GetTasks();
+        await TaskService.DeleteAllTasksAsync();
+        await GetTasks();
     }
 
     private void EditTask(int id)
@@ -243,49 +240,30 @@ else if (_tasksComplete is not null)
         NavigationManager.NavigateTo($"task/{id}");
     }
 
-    private void DeleteTask(Data.Models.Task task)
+    private async void DeleteTask(Data.Models.Task task)
     {
         task.Archived = true;
-
-        _context?.Tasks.Update(task);
-        _context?.SaveChanges();
-
-        this.GetTasks();
+        await TaskService.UpdateTaskAsync(task);
+        await GetTasks();
     }
 
     private async Task GetTasks()
     {
-        _context ??= _contextFactory.CreateDbContext();
-
-        var tasks = _context.Tasks.ToArray();
-
-        _tasksStaged = (from x in tasks
-                        where x.Status == Data.Enums.Status.Staged && x.Archived == false
-                        select x).ToArray();
-
-        _tasksInProgress = (from x in tasks
-                            where x.Status == Data.Enums.Status.InProgress && x.Archived == false
-                            select x).ToArray();
-
-        _tasksComplete = (from x in _context.Tasks
-                          where x.Status == Data.Enums.Status.Complete && x.Archived == false
-                          select x).ToArray();
+        _tasksStaged = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.Staged && x.Archived == false);
+        _tasksInProgress = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.InProgress && x.Archived == false);
+        _tasksComplete = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.Complete && x.Archived == false);
     }
 
-    private void StatusChanged(ChangeEventArgs e, Data.Models.Task task)
+    private async void StatusChanged(ChangeEventArgs e, Data.Models.Task task)
     {
-        _context ??= _contextFactory.CreateDbContext();
-
         if (Enum.TryParse<Data.Enums.Status>(e.Value?.ToString(), out var status))
         {
             if (task.Status > status)
                 return;
 
             task.Status = status;
-            _context.Tasks.Update(task);
-            _context.SaveChanges();
-
-            GetTasks();
+            await TaskService.UpdateTaskAsync(task);
+            await GetTasks();
         }
     }
 }
