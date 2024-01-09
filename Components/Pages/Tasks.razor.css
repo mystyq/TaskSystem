@@ -5,10 +5,6 @@ table thead {
     font-size:0.8em;
 }
 
-table {
-    margin-top: -1px;
-}
-
 .btn-createtask {
     border: rgba(5, 103, 87, 0.6) 2px solid;
     background: rgba(5, 103, 87, 0.3);
@@ -31,4 +27,8 @@ table {
 .btn-danger {
     border:#9b1a27 2px solid;
     text-shadow: 1px 1px 2px #700b15;
+}
+
+.table-wrapper {
+    margin-top: -1px;
 }
