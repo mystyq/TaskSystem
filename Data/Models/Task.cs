@@ -19,6 +19,9 @@ namespace TaskSystem.Data.Models
         }
         public Priority? Priority { get; set; } = Enums.Priority.None;
         public string? Comment { get; set; }
+        public DateTime? TargetCompleteDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
+        public double? EstimateDuration { get; set; }
         public bool? Archived { get; set; } = false;
 
         public void SetStatus(Status status)
