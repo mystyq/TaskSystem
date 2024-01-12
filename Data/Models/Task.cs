@@ -30,6 +30,16 @@ namespace TaskSystem.Data.Models
             if (status <= _status)
                 return;
 
+            switch(status)
+            {
+                case Enums.Status.InProgress:
+                    this.StartedDate = DateTime.Now;
+                    break;
+                case Enums.Status.Complete:
+                    this.CompletedDate = DateTime.Now;
+                    break;
+            }
+
             this.Status = status;
         }
     }
