@@ -1,4 +1,5 @@
-﻿using TaskSystem.Data.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TaskSystem.Data.Enums;
 
 namespace TaskSystem.Data.Models
 {
@@ -22,7 +23,37 @@ namespace TaskSystem.Data.Models
         public DateTime? TargetCompleteDate { get; set; }
         public DateTime? StartedDate { get; set; }
         public DateTime? CompletedDate { get; set; }
-        public double? EstimateDuration { get; set; }
+        public double EstimateDuration { get; set; }
+        private int _estimateHours = 0;
+        [NotMapped]
+        public int EstimateHours
+        {
+            get
+            {
+                var timeSpan = TimeSpan.FromMinutes(this.EstimateDuration);
+                return (int)timeSpan.TotalHours;
+            }
+            set
+            {
+                _estimateHours = value;
+                CalculateEstimate();
+            }
+        }
+        private int _estimateMinutes = 0;
+        [NotMapped]
+        public int EstimateMinutes
+        {
+            get
+            {
+                var timeSpan = TimeSpan.FromMinutes(this.EstimateDuration);
+                return timeSpan.Minutes;
+            }
+            set
+            {
+                _estimateMinutes = value;
+                CalculateEstimate();
+            }
+        }
         public bool? Archived { get; set; } = false;
 
         public void SetStatus(Status status)
@@ -41,6 +72,11 @@ namespace TaskSystem.Data.Models
             }
 
             this.Status = status;
+        }
+
+        private void CalculateEstimate()
+        {
+            this.EstimateDuration = (_estimateHours*60) + _estimateMinutes;
         }
     }
 }

@@ -6,22 +6,22 @@
 <PageTitle>Create Task</PageTitle>
 
 <EditForm EditContext="_editContext" OnValidSubmit="@HandleValidSubmit" FormName="CreateTaskForm">
-    <div class="form-group mb-2">
+    <div class="form-group mb-3">
         <label for="@nameof(_task.Title)">@nameof(_task.Title)</label>
         <input @ref="_iautofocus" id="@nameof(_task.Title)" @bind="_task.Title" class="form-control" />
         <ValidationMessage For="() => _task.Title" />
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-3">
         <label for="@nameof(_task.Description)">@nameof(_task.Description)</label>
         <input id="@nameof(_task.Description)" @bind="_task.Description" class="form-control" />
         <ValidationMessage For="() => _task.Description" />
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-3">
         <label for="@nameof(_task.Comment)">@nameof(_task.Comment)</label>
         <InputTextArea id="@nameof(_task.Comment)" @bind-Value="_task.Comment" class="form-control" />
         <ValidationMessage For="() => _task.Comment" />
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-3">
         <label for="@nameof(_task.Priority)">@nameof(_task.Priority)</label>
         <select id="@nameof(_task.Priority)" @bind="_task.Priority" class="form-control">
             @foreach(var priority in Data.Enums.Priority.GetValues(typeof(Priority)))
@@ -30,9 +30,16 @@
             }
         </select>
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mb-3">
         <label for="@nameof(_task.TargetCompleteDate)">Complete By Date</label>
         <input id="@nameof(_task.TargetCompleteDate)" @bind="_task.TargetCompleteDate" class="form-control" type="date" />
+    </div>
+    <span>Estimate</span>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Hours</span>
+        <input id="@nameof(_task.EstimateHours)" @bind="_task.EstimateHours" class="form-control" type="number" />
+        <span class="input-group-text">Minutes</span>
+        <input id="@nameof(_task.EstimateMinutes)" @bind="_task.EstimateMinutes" class="form-control" type="number" />
     </div>
     <button type="submit" class="btn btn-dark">Save</button>
 </EditForm>
