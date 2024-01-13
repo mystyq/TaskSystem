@@ -37,9 +37,9 @@
     <span>Estimate</span>
     <div class="input-group mb-3">
         <span class="input-group-text">Hours</span>
-        <input id="@nameof(_task.EstimateHours)" @bind="_task.EstimateHours" class="form-control" type="number" />
+        <input id="@nameof(_task.EstimateHours)" @bind="_task.EstimateHours" class="form-control" type="number" min="0" />
         <span class="input-group-text">Minutes</span>
-        <input id="@nameof(_task.EstimateMinutes)" @bind="_task.EstimateMinutes" class="form-control" type="number" />
+        <input id="@nameof(_task.EstimateMinutes)" @bind="_task.EstimateMinutes" class="form-control" type="number" max="60" min="0" />
     </div>
     <button type="submit" class="btn btn-dark">Save</button>
 </EditForm>

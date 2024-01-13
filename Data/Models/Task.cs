@@ -31,7 +31,8 @@ namespace TaskSystem.Data.Models
             get
             {
                 var timeSpan = TimeSpan.FromMinutes(this.EstimateDuration);
-                return (int)timeSpan.TotalHours;
+                _estimateHours = (int)timeSpan.TotalHours;
+                return _estimateHours;
             }
             set
             {
@@ -46,7 +47,8 @@ namespace TaskSystem.Data.Models
             get
             {
                 var timeSpan = TimeSpan.FromMinutes(this.EstimateDuration);
-                return timeSpan.Minutes;
+                _estimateMinutes = timeSpan.Minutes;
+                return _estimateMinutes;
             }
             set
             {
