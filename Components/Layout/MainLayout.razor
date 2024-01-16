@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
+<MudThemeProvider Theme="CurrentTheme" />
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
@@ -31,8 +31,18 @@
 @inject UpdateTitleService updateTitleService
 @code {
     private string Title { get; set; } = string.Empty;
-    
+
     private bool DrawerOpen { get; set; } = true;
+
+    private MudTheme CurrentTheme = new()
+        {
+            Palette = new()
+            {
+                Primary = Colors.Grey.Darken1,
+                Secondary = Colors.Green.Accent4,
+                AppbarBackground = "#002d38",
+            }
+        };
 
     protected override void OnInitialized()
     {
