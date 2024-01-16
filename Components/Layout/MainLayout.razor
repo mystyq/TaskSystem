@@ -1,20 +1,25 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => { DrawerOpen ^= true; })" />
+        <MudText Typo="Typo.h5" Class="ml-3">@Title</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Href="https://github.com/mystyq/TaskSystem"/>
+    </MudAppBar>
+    <MudDrawer Class="mud-drawer-fixed" Open="@DrawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <span class="lead">@Title</span>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-5">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
@@ -26,11 +31,13 @@
 @inject UpdateTitleService updateTitleService
 @code {
     private string Title { get; set; } = string.Empty;
+    
+    private bool DrawerOpen { get; set; } = true;
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         updateTitleService.UpdateTitleChanged += HandleUpdateTitleChanged!;
+        base.OnInitialized();
     }
 
     private void HandleUpdateTitleChanged(object sender, UpdateTitleService.UpdateTitleEventArgs args)
