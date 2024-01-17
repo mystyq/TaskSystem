@@ -488,3 +488,5 @@ Data/tasks.db
 *.db
 .vscode/
 settings.json
+*.db-shm
+*.db-wal
