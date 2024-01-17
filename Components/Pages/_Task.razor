@@ -2,6 +2,7 @@
 @page "/task/{Id:int}"
 @rendermode InteractiveServer
 @inject ITaskService TaskService
+@inject ISnackbar Snackbar
 
 <PageTitle>Create Task</PageTitle>
 
@@ -95,17 +96,25 @@
 
     private async void HandleValidSubmit()
     {
+        var success = false;
         if (Id is not null)
         {
-            await TaskService.UpdateTaskAsync(_task);
+            success = await TaskService.UpdateTaskAsync(_task);
         }
         else
         {
             _task.DateCreated = DateTime.Now;
             _task.SetStatus(Data.Enums.Status.Staged);
-            await TaskService.AddTaskAsync(_task);
+            success = await TaskService.AddTaskAsync(_task);
         }
-        
+        if (success)
+        {
+            Snackbar.Add("Saved Task", Severity.Success);
+        }
+        else
+        {
+            Snackbar.Add("Error Saving Task", Severity.Error);
+        }
         NavigationManager.NavigateTo("tasks");
     }
 
