@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MudBlazor;
 using MudBlazor.Services;
 using TaskSystem.Components;
 using TaskSystem.Data;
@@ -9,7 +10,17 @@ var connectionString = builder.Configuration.GetConnectionString("tasks.db");
 
 // Add services to the container.
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-builder.Services.AddMudServices();
+builder.Services.AddMudServices(config =>
+{
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
+    config.SnackbarConfiguration.PreventDuplicates = false;
+    config.SnackbarConfiguration.NewestOnTop = false;
+    config.SnackbarConfiguration.ShowCloseIcon = true;
+    config.SnackbarConfiguration.VisibleStateDuration = 1500;
+    config.SnackbarConfiguration.HideTransitionDuration = 1000;
+    config.SnackbarConfiguration.ShowTransitionDuration = 250;
+    config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+});
 builder.Services.AddSingleton<UpdateTitleService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddDbContextFactory<DatabaseContext>(options => options.UseSqlite(connectionString));
