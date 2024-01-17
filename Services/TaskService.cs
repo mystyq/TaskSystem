@@ -14,21 +14,24 @@ namespace TaskSystem.Services
             _context = context;
         }
 
-        public async Task DeleteAllTasksAsync()
+        public async Task<bool> DeleteAllTasksAsync()
         {
             var tasks = await _context.Tasks.ToListAsync();
             _context.Tasks.RemoveRange(tasks);
-            await _context.SaveChangesAsync();
+            var success = await _context.SaveChangesAsync();
+            return success > 0;
         }
 
-        public async Task DeleteTaskAsync(int id)
+        public async Task<bool> DeleteTaskAsync(int id)
         {
             var task = await _context.Tasks.FindAsync(id);
             if (task is not null)
             {
                 _context.Tasks.Remove(task);
-                await _context.SaveChangesAsync();
+                var success = await _context.SaveChangesAsync();
+                return success > 0;
             }
+            return false;
         }
 
         public async Task<List<Data.Models.Task>> GetAllTasksAsync(Expression<Func<Data.Models.Task, bool>>? filter = null)
@@ -43,19 +46,18 @@ namespace TaskSystem.Services
             return task;
         }
 
-        public async Task AddTaskAsync(Data.Models.Task task)
+        public async Task<bool> AddTaskAsync(Data.Models.Task task)
         {
             _context.Tasks.Add(task);
-            await _context.SaveChangesAsync();
+            var success = await _context.SaveChangesAsync();
+            return success > 0;
         }
 
-        public async Task UpdateTaskAsync(Data.Models.Task task)
+        public async Task<bool> UpdateTaskAsync(Data.Models.Task task)
         {
-            if (_context.Entry(task).State == EntityState.Modified)
-            {
-                _context.Tasks.Update(task);
-                await _context.SaveChangesAsync();
-            }
+            _context.Tasks.Update(task);
+            var success = await _context.SaveChangesAsync();
+            return success > 0;
         }
     }
 }

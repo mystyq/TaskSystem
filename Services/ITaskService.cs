@@ -8,12 +8,12 @@ namespace TaskSystem.Services
 
         Task<Data.Models.Task> GetTaskByIdAsync(int? id);
 
-        Task AddTaskAsync(Data.Models.Task task);
+        Task<bool> AddTaskAsync(Data.Models.Task task);
 
-        Task UpdateTaskAsync(Data.Models.Task task);
+        Task<bool> UpdateTaskAsync(Data.Models.Task task);
 
-        Task DeleteTaskAsync(int id);
+        Task<bool> DeleteTaskAsync(int id);
 
-        Task DeleteAllTasksAsync();
+        Task<bool> DeleteAllTasksAsync();
     }
 }
