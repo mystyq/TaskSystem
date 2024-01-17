@@ -6,10 +6,9 @@
 
 <PageTitle>Tasks Overview</PageTitle>
 
-<div class="row-fluid mb-2">
-    <button class="btn btn-sm btn-createtask no-transition" @onclick="GotoCreate">Create Task</button>
-    <button class="btn btn-sm btn-danger no-transition" @onclick="OpenClearTasksModal">Clear Tasks</button>
-</div>
+<MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="GotoCreate">Create Task</MudButton>
+<MudButton Color="Color.Error" Variant="Variant.Filled" StartIcon="@Icons.Material.Rounded.Restore" OnClick="OpenClearTasksModal">Clear Tasks</MudButton>
+
 @if (_tasksStaged is null)
 {
     <p><em>Loading...</em></p>
@@ -58,8 +57,8 @@ else if (_tasksStaged is not null)
                         </td>
                         <td>@task.Priority</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button>
-                            <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteTask(task))">Delete</button>
+                            <MudButton Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => EditTask(task.Id))">Edit</MudButton>
+                            <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => DeleteTask(task))">Delete</MudButton>
                         </td>
                     </tr>
                 }
@@ -115,8 +114,8 @@ else if (_tasksInProgress is not null)
                         </td>
                         <td>@task.Priority</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button>
-                            <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteTask(task))">Delete</button>
+                            <MudButton Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => EditTask(task.Id))">Edit</MudButton>
+                            <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => DeleteTask(task))">Delete</MudButton>
                         </td>
                     </tr>
                 }
@@ -172,8 +171,8 @@ else if (_tasksComplete is not null)
                         </td>
                         <td>@task.Priority</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" @onclick="@(() => EditTask(task.Id))">Edit</button>
-                            <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteTask(task))">Delete</button>
+                            <MudButton Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => EditTask(task.Id))">Edit</MudButton>
+                            <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => DeleteTask(task))">Delete</MudButton>
                         </td>
                     </tr>
                 }

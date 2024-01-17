@@ -41,7 +41,7 @@
         <span class="input-group-text">Minutes</span>
         <input id="@nameof(_task.EstimateMinutes)" @bind="_task.EstimateMinutes" class="form-control" type="number" max="60" min="0" />
     </div>
-    <button type="submit" class="btn btn-dark">Save</button>
+    <MudButton Color="Color.Secondary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save</MudButton>
 </EditForm>
 
 @implements IDisposable
