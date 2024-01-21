@@ -24,14 +24,14 @@ namespace TaskSystem.Services
 
         public async Task<bool> DeleteTaskAsync(int id)
         {
+            int success = 0;
             var task = await _context.Tasks.FindAsync(id);
             if (task is not null)
             {
                 _context.Tasks.Remove(task);
-                var success = await _context.SaveChangesAsync();
-                return success > 0;
+                success = await _context.SaveChangesAsync();
             }
-            return false;
+            return success > 0;
         }
 
         public async Task<List<Data.Models.Task>> GetAllTasksAsync(Expression<Func<Data.Models.Task, bool>>? filter = null)

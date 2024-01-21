@@ -9,8 +9,8 @@ namespace TaskSystem.Data.Models
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTime? DateCreated { get; set; }
-        private Status? _status = Enums.Status.Staged;
-        public Status? Status
+        private Status _status = Status.Staged;
+        public Status Status
         {
             get => _status;
             private set
@@ -18,7 +18,7 @@ namespace TaskSystem.Data.Models
                 _status = value;
             }
         }
-        public Priority? Priority { get; set; } = Enums.Priority.None;
+        public Priority Priority { get; set; } = Priority.None;
         public string? Comment { get; set; }
         public DateTime? TargetCompleteDate { get; set; }
         public DateTime? StartedDate { get; set; }
@@ -65,10 +65,10 @@ namespace TaskSystem.Data.Models
 
             switch(status)
             {
-                case Enums.Status.InProgress:
+                case Status.InProgress:
                     this.StartedDate = DateTime.Now;
                     break;
-                case Enums.Status.Complete:
+                case Status.Complete:
                     this.CompletedDate = DateTime.Now;
                     break;
             }
