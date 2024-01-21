@@ -38,18 +38,18 @@ else if (_tasksStaged is not null)
                         <td>@task.Description</td>
                         <td>@task.DateCreated</td>
                         <td>
-                            <MudSelect T="string" 
+                            <MudSelect T="Status" 
                                        Dense="true"
                                        Style="margin-top:-20px;width:100px;"
                                        Variant="Variant.Text" 
                                        SelectedValuesChanged="((e) => StatusChanged(e.First(), task))"
-                                       SelectedValues="new string[]{ task.Status.ToString() }">
+                                       SelectedValues="new Status[]{ task.Status }">
                             @foreach (Status status in Enum.GetValues(typeof(Status)))
                             {
                                 if (task.Status > status)
                                     continue;
 
-                                <MudSelectItem T="string" Value="status.ToString()">@status</MudSelectItem>
+                                <MudSelectItem T="Status" Value="status">@status.GetDisplayName()</MudSelectItem>
                             }
                             </MudSelect>
                         </td>
@@ -93,18 +93,18 @@ else if (_tasksInProgress is not null)
                         <td>@task.Description</td>
                         <td>@task.DateCreated</td>
                         <td>
-                            <MudSelect T="string" 
+                            <MudSelect T="Status" 
                                        Dense="true"
                                        Style="margin-top:-20px;width:100px;"
                                        Variant="Variant.Text" 
                                        SelectedValuesChanged="((e) => StatusChanged(e.First(), task))"
-                                       SelectedValues="new string[]{ task.Status.ToString() }">
+                                       SelectedValues="new Status[]{ task.Status }">
                             @foreach (Status status in Enum.GetValues(typeof(Status)))
                             {
                                 if (task.Status > status)
                                     continue;
 
-                                <MudSelectItem T="string" Value="status.ToString()">@status</MudSelectItem>
+                                <MudSelectItem T="Status" Value="status">@status.GetDisplayName()</MudSelectItem>
                             }
                             </MudSelect>
                         </td>
@@ -148,18 +148,18 @@ else if (_tasksComplete is not null)
                         <td>@task.Description</td>
                         <td>@task.DateCreated</td>
                         <td>
-                            <MudSelect T="string" 
+                            <MudSelect T="Status" 
                                        Dense="true"
                                        Style="margin-top:-20px;width:100px;"
                                        Variant="Variant.Text" 
                                        SelectedValuesChanged="((e) => StatusChanged(e.First(), task))"
-                                       SelectedValues="new string[]{ task.Status.ToString() }">
+                                       SelectedValues="new Status[]{ task.Status }">
                             @foreach (Status status in Enum.GetValues(typeof(Status)))
                             {
                                 if (task.Status > status)
                                     continue;
 
-                                <MudSelectItem T="string" Value="status.ToString()">@status</MudSelectItem>
+                                <MudSelectItem T="Status" Value="status">@status.GetDisplayName()</MudSelectItem>
                             }
                             </MudSelect>
                         </td>
@@ -246,9 +246,8 @@ else if (_tasksComplete is not null)
         _tasksComplete = await TaskService.GetAllTasksAsync((x) => x.Status == Data.Enums.Status.Complete && x.Archived == false);
     }
 
-    private async Task StatusChanged(string strStatus, Data.Models.Task task)
+    private async Task StatusChanged(Status status, Data.Models.Task task)
     {
-        Enum.TryParse(strStatus, out Status status);
         task.SetStatus(status);
         await TaskService.UpdateTaskAsync(task);
         await GetTasks();
