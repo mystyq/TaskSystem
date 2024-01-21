@@ -24,6 +24,8 @@ namespace TaskSystem.Data.Models
         public DateTime? StartedDate { get; set; }
         public DateTime? CompletedDate { get; set; }
         public double EstimateDuration { get; set; }
+        [NotMapped]
+        public TimeSpan EstimateTimeSpan { get => TimeSpan.FromMinutes(this.EstimateDuration); }
         private int _estimateHours = 0;
         [NotMapped]
         public int EstimateHours
