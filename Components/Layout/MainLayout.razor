@@ -9,7 +9,9 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => { DrawerOpen ^= true; })" />
         <MudText Typo="Typo.h5" Class="ml-3">@Title</MudText>
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Href="https://github.com/mystyq/TaskSystem"/>
+        <MudTooltip Text="Visit project on Github">
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Href="https://github.com/mystyq/TaskSystem"/>
+        </MudTooltip>
     </MudAppBar>
     <MudDrawer @bind-Open="@DrawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />
