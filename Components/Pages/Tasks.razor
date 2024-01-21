@@ -16,7 +16,7 @@
 else
 {
     <MudTabs Position="Position.Top" Rounded="true" Border="false" Outlined="true" ApplyEffectsToContainer="true" Class="mt-5">
-        <MudTabPanel Text="Staged">
+        <MudTabPanel Text="Staged" BadgeData="(_tasksStaged.Count() > 0 ? _tasksStaged.Count() : null)">
             <MudDataGrid Items="@_tasksStaged" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
                     <PropertyColumn Property="x => x.Title" />
@@ -52,7 +52,7 @@ else
                 </Columns>
             </MudDataGrid>
         </MudTabPanel>
-        <MudTabPanel Text="In Progress">
+        <MudTabPanel Text="In Progress" BadgeData="(_tasksInProgress.Count() > 0 ? _tasksInProgress.Count() : null)">
             <MudDataGrid Items="@_tasksInProgress" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
                     <PropertyColumn Property="x => x.Title" />
@@ -88,7 +88,7 @@ else
                 </Columns>
             </MudDataGrid>
         </MudTabPanel>
-        <MudTabPanel Text="Complete">
+        <MudTabPanel Text="Complete" BadgeData="(_tasksComplete.Count() > 0 ? _tasksComplete.Count() : null)">
             <MudDataGrid Items="@_tasksComplete" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
                     <PropertyColumn Property="x => x.Title" />
