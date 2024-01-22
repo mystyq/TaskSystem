@@ -68,7 +68,7 @@ else
                         </CellTemplate>
                     </TemplateColumn>
                     <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
-                    <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- h\:m\ tt" />
+                    <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
                     <PropertyColumn Property="x => x.Status">
                         <CellTemplate>
@@ -112,8 +112,8 @@ else
                     </TemplateColumn>
                     <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
                     <PropertyColumn Property="x => x.ActualTimeSpan" Title="Actual" Format="d\d\ h\h\ mm\m\ s\s" />
-                    <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- h\:m\:s tt" />
-                    <PropertyColumn Property="x => x.CompletedDate" Title="Completed" Format="MM/dd/yyyy\ \- h\:m\:s tt" />
+                    <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt" />
+                    <PropertyColumn Property="x => x.CompletedDate" Title="Completed" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
                     <PropertyColumn Property="x => x.Priority" />
                     <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
