@@ -6,9 +6,13 @@ namespace TaskSystem.Data.Models
     public class Task
     {
         public int Id { get; set; }
+
         public string? Title { get; set; }
+
         public string? Description { get; set; }
-        public DateTime? DateCreated { get; set; }
+
+        public DateTime DateCreated { get; set; }
+
         private Status _status = Status.Staged;
         public Status Status
         {
@@ -18,14 +22,27 @@ namespace TaskSystem.Data.Models
                 _status = value;
             }
         }
+
         public Priority Priority { get; set; } = Priority.None;
+
         public string? Comment { get; set; }
+
         public DateTime? TargetCompleteDate { get; set; }
-        public DateTime? StartedDate { get; set; }
-        public DateTime? CompletedDate { get; set; }
+
+        public DateTime StartedDate { get; set; }
+
+        public DateTime CompletedDate { get; set; }
+
         public double EstimateDuration { get; set; }
+
+        public bool Archived { get; set; } = false;
+
         [NotMapped]
         public TimeSpan EstimateTimeSpan { get => TimeSpan.FromMinutes(this.EstimateDuration); }
+
+        [NotMapped]
+        public TimeSpan ActualTimeSpan { get => this.CompletedDate - this.StartedDate; }
+
         private int _estimateHours = 0;
         [NotMapped]
         public int EstimateHours
@@ -42,6 +59,7 @@ namespace TaskSystem.Data.Models
                 CalculateEstimate();
             }
         }
+
         private int _estimateMinutes = 0;
         [NotMapped]
         public int EstimateMinutes
@@ -58,7 +76,6 @@ namespace TaskSystem.Data.Models
                 CalculateEstimate();
             }
         }
-        public bool? Archived { get; set; } = false;
 
         public void SetStatus(Status status)
         {

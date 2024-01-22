@@ -110,6 +110,7 @@ else
                         </CellTemplate>
                     </TemplateColumn>
                     <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
+                    <PropertyColumn Property="x => x.ActualTimeSpan" Title="Actual" Format="d\d\ h\h\ mm\m" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
                     <PropertyColumn Property="x => x.Status">
                         <CellTemplate>
@@ -146,11 +147,12 @@ else
 
 @inject UpdateTitleService updateTitleService
 @code {
-#pragma warning disable CS4014
-#pragma warning disable CS1998
     private List<Data.Models.Task>? _tasksStaged;
+
     private List<Data.Models.Task>? _tasksInProgress;
+
     private List<Data.Models.Task>? _tasksComplete;
+
     protected override async Task OnInitializedAsync()
     {
         await GetTasks();
