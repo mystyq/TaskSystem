@@ -6,8 +6,7 @@
 
 <PageTitle>Tasks Overview</PageTitle>
 
-<MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="GotoCreate">Create Task</MudButton>
-<MudButton Color="Color.Error" Variant="Variant.Filled" StartIcon="@Icons.Material.Rounded.Restore" OnClick="OpenClearTasksModal">Clear Tasks</MudButton>
+<MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="GotoCreate">Create Task</MudButton>
 
 @if (_tasksStaged is null || _tasksInProgress is null || _tasksComplete is null)
 {
@@ -127,15 +126,6 @@ else
     </MudTabs>
 }
 
-@if (ClearTasksModalOpen)
-{
-    <Modal OnClose="ClearTasksModalOnClose"
-           Title="Clear Tasks"
-           Body="Are you sure you want to clear tasks?"
-           Buttons="Modal.ButtonType.DeleteCancel">
-    </Modal>
-}
-
 @inject UpdateTitleService updateTitleService
 @code {
 #pragma warning disable CS4014
@@ -143,40 +133,15 @@ else
     private List<Data.Models.Task>? _tasksStaged;
     private List<Data.Models.Task>? _tasksInProgress;
     private List<Data.Models.Task>? _tasksComplete;
-    private bool ClearTasksModalOpen { get; set; }
-
-    private void ClearTasksModalOnClose(bool clearTasks)
-    {
-        if (clearTasks) this.ClearTasks();
-
-        this.ClearTasksModalOpen = false;
-
-        StateHasChanged();
-    }
-
-    private void OpenClearTasksModal()
-    {
-        this.ClearTasksModalOpen = true;
-
-        StateHasChanged();
-    }
-
     protected override async Task OnInitializedAsync()
     {
         await GetTasks();
-
         updateTitleService.UpdateTitle("Tasks Overview");
     }
 
     private void GotoCreate()
     {
         NavigationManager.NavigateTo("task");
-    }
-
-    private async void ClearTasks()
-    {
-        await TaskService.DeleteAllTasksAsync();
-        await GetTasks();
     }
 
     private void EditTask(int id)
