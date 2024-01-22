@@ -18,7 +18,13 @@ else
         <MudTabPanel Text="Staged" BadgeData="(_tasksStaged.Count() > 0 ? _tasksStaged.Count() : null)">
             <MudDataGrid Items="@_tasksStaged" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
-                    <PropertyColumn Property="x => x.Title" />
+                    <TemplateColumn Title="Title">
+                        <CellTemplate>
+                            <MudTooltip Text="@context.Item.Description">
+                                <MudText>@context.Item.Title</MudText>
+                            </MudTooltip>
+                        </CellTemplate>
+                    </TemplateColumn>
                     <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
                     <PropertyColumn Property="x => x.Status">
@@ -54,7 +60,13 @@ else
         <MudTabPanel Text="In Progress" BadgeData="(_tasksInProgress.Count() > 0 ? _tasksInProgress.Count() : null)">
             <MudDataGrid Items="@_tasksInProgress" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
-                    <PropertyColumn Property="x => x.Title" />
+                    <TemplateColumn Title="Title">
+                        <CellTemplate>
+                            <MudTooltip Text="@context.Item.Description">
+                                <MudText>@context.Item.Title</MudText>
+                            </MudTooltip>
+                        </CellTemplate>
+                    </TemplateColumn>
                     <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
                     <PropertyColumn Property="x => x.Status">
@@ -90,7 +102,13 @@ else
         <MudTabPanel Text="Complete" BadgeData="(_tasksComplete.Count() > 0 ? _tasksComplete.Count() : null)">
             <MudDataGrid Items="@_tasksComplete" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
-                    <PropertyColumn Property="x => x.Title" />
+                    <TemplateColumn Title="Title">
+                        <CellTemplate>
+                            <MudTooltip Text="@context.Item.Description">
+                                <MudText>@context.Item.Title</MudText>
+                            </MudTooltip>
+                        </CellTemplate>
+                    </TemplateColumn>
                     <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
                     <PropertyColumn Property="x => x.Status">
