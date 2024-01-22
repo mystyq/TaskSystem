@@ -115,24 +115,6 @@ else
                     <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- h\:m\:s tt" />
                     <PropertyColumn Property="x => x.CompletedDate" Title="Completed" Format="MM/dd/yyyy\ \- h\:m\:s tt" />
                     <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
-                    <PropertyColumn Property="x => x.Status">
-                        <CellTemplate>
-                            <MudSelect T="Status"
-                                    Dense="true"
-                                    Variant="Variant.Text"
-                                    Style="margin-top:-1px;"
-                                    SelectedValuesChanged="((e) => StatusChanged(e.First(), context.Item))"
-                                    SelectedValues="new Status[]{ context.Item.Status }">
-                                @foreach (Status status in Enum.GetValues(typeof(Status)))
-                                {
-                                    if (context.Item.Status > status)
-                                        continue;
-
-                                    <MudSelectItem T="Status" Value="status">@status.GetDisplayName()</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </CellTemplate>
-                    </PropertyColumn>
                     <PropertyColumn Property="x => x.Priority" />
                     <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                         <CellTemplate>
