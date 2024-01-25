@@ -15,7 +15,7 @@
 }
 else
 {
-    <MudTabs @ref="@TabControl" ActivePanelIndexChanged="@(async (index) => await LocalStorage.SetItemAsync<int?>("ActiveTab", index))" Position="Position.Top" Rounded="true" Border="false" Outlined="true" ApplyEffectsToContainer="true" Class="mt-5">
+    <MudTabs @ref="@TabControl" KeepPanelsAlive="true" ActivePanelIndexChanged="@(async (index) => await LocalStorage.SetItemAsync<int?>("ActiveTab", index))" Position="Position.Top" Rounded="true" Border="false" Outlined="true" ApplyEffectsToContainer="true" Class="mt-5">
         <MudTabPanel Text="Staged" BadgeData="(_tasksStaged.Count() > 0 ? _tasksStaged.Count() : null)">
             <MudDataGrid Items="@_tasksStaged" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
