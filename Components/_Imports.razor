@@ -10,11 +10,12 @@
 @using TaskSystem
 @using TaskSystem.Components
 @using TaskSystem.Components.Elements
-@using TaskSystem.Data;
+@using TaskSystem.Data
 @using Microsoft.EntityFrameworkCore
-@using TaskSystem.Services;
+@using TaskSystem.Services
 @using TaskSystem.Data.Enums
 @using MudBlazor
+@using Blazored.LocalStorage
 
-@inject IDbContextFactory<DatabaseContext> _contextFactory;
-@inject NavigationManager NavigationManager;
+@inject IDbContextFactory<DatabaseContext> _contextFactory
+@inject NavigationManager NavigationManager

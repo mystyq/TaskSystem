@@ -3,6 +3,7 @@
 @attribute [StreamRendering]
 @rendermode InteractiveServer
 @inject ITaskService TaskService
+@inject ILocalStorageService LocalStorage
 
 <PageTitle>Tasks Overview</PageTitle>
 
@@ -14,7 +15,7 @@
 }
 else
 {
-    <MudTabs Position="Position.Top" Rounded="true" Border="false" Outlined="true" ApplyEffectsToContainer="true" Class="mt-5">
+    <MudTabs @ref="@TabControl" ActivePanelIndexChanged="@(async (index) => await LocalStorage.SetItemAsync<int?>("ActiveTab", index))" Position="Position.Top" Rounded="true" Border="false" Outlined="true" ApplyEffectsToContainer="true" Class="mt-5">
         <MudTabPanel Text="Staged" BadgeData="(_tasksStaged.Count() > 0 ? _tasksStaged.Count() : null)">
             <MudDataGrid Items="@_tasksStaged" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                 <Columns>
@@ -137,11 +138,21 @@ else
     private List<Data.Models.Task>? _tasksInProgress;
 
     private List<Data.Models.Task>? _tasksComplete;
+    
+    private MudTabs TabControl { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await GetTasks();
         updateTitleService.UpdateTitle("Tasks Overview");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var activeTab = await LocalStorage.GetItemAsync<int?>("ActiveTab"); 
+        if (activeTab != null) {
+            TabControl.ActivatePanel(activeTab.Value);
+        }
     }
 
     private void GotoCreate()

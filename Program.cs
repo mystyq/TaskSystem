@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using MudBlazor.Services;
@@ -21,6 +22,7 @@ builder.Services.AddMudServices(config =>
     config.SnackbarConfiguration.ShowTransitionDuration = 250;
     config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
 });
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<UpdateTitleService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddDbContextFactory<DatabaseContext>(options => options.UseSqlite(connectionString));
