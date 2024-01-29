@@ -152,14 +152,14 @@ else
             {
                 <MudStack AlignItems="AlignItems.Center" Class="ma-4" Style="flex:1;">
                     <MudText Typo="Typo.subtitle2"><b>@item.Status.GetDisplayName()</b></MudText>
-                    <MudPaper Elevation="0" Width="100%" Height="100%" MinHeight="400px" Class="p-0 m-1 d-flex flex-column border mud-border-gray rounded-lg">
-                        <MudDropZone T="KanbanTaskItem" Identifier="@item.Status.ToString()" Class="mud-height-full rounded-lg" />
+                    <MudPaper Elevation="0" Width="100%" Height="100%" MinHeight="400px" Class="p-0 m-1 d-flex flex-column border mud-border-gray">
+                        <MudDropZone T="KanbanTaskItem" Identifier="@item.Status.ToString()" Class="mud-height-full" />
                     </MudPaper>
                 </MudStack>
             }
             </ChildContent>
             <ItemRenderer>
-                <MudPaper Elevation="25" Class="pa-3 rounded-lg ma-3">
+                <MudPaper Elevation="25" Class="pa-3 border ma-1 mud-border-gray">
                     <MudStack Row="true" Justify="Justify.SpaceBetween">
                         <MudText><MudIcon Icon="@Icons.Material.Filled.Task" Size="Size.Small" Color="Color.Primary"/> <b>@context.Task.Title</b></MudText>
                         <MudStack Row="true" Justify="Justify.FlexEnd">
