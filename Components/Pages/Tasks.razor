@@ -163,8 +163,8 @@ else
                     <MudStack Row="true" Justify="Justify.SpaceBetween">
                         <MudText><MudIcon Icon="@Icons.Material.Filled.Task" Size="Size.Small" Color="Color.Primary"/> <b>@context.Task.Title</b></MudText>
                         <MudStack Row="true" Justify="Justify.FlexEnd">
-                            <MudIconButton Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="((e) => EditTask(context.Task.Id))"/>
-                            <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="((e) => DeleteTask(context.Task))"/>
+                            <MudIconButton DisableRipple="true" Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="((e) => EditTask(context.Task.Id))"/>
+                            <MudIconButton DisableRipple="true" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="((e) => DeleteTask(context.Task))"/>
                         </MudStack>
                     </MudStack>
                 </MudPaper>
