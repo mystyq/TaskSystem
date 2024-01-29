@@ -187,9 +187,9 @@ else
 
     private string ActiveView { get; set; } = "Grid";
     
-    private MudTabs TabControl { get; set; }
+    private MudTabs? TabControl { get; set; }
 
-    private MudDropContainer<KanbanTaskItem> _dropContainer;
+    private MudDropContainer<KanbanTaskItem>? _dropContainer;
 
 	private List<KanBanSections> _sections = new()
     {
@@ -235,21 +235,12 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var activeView = await LocalStorage.GetItemAsync<string?>("ActiveView");
-        if (activeView != null)
-        {
-            ActiveView = activeView;
-        }
-        if (string.IsNullOrEmpty(ActiveView))
-        {
-            ActiveView = "Grid";
-        }
         if (ActiveView.Equals("Grid"))
         {
             var activeTab = await LocalStorage.GetItemAsync<int?>("ActiveTab"); 
             if (activeTab != null)
             {
-                TabControl.ActivatePanel(activeTab.Value);
+                TabControl?.ActivatePanel(activeTab.Value);
             }
         }
         if (ActiveView.Equals("Kanban"))
@@ -269,10 +260,7 @@ else
                 ActiveView = "Grid";
                 break;
         }
-
-        await LocalStorage.SetItemAsync<string>("ActiveView", ActiveView);
-
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     private void GotoCreate()
@@ -319,10 +307,10 @@ else
     }
 
     private async Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
-	{
+    {
         Enum.TryParse<Status>(info.DropzoneIdentifier, out var status);
-		info.Item.Task.SetStatus(status);
+        info.Item.Task.SetStatus(status);
         await TaskService.UpdateTaskAsync(info.Item.Task);
         PopulateKanbanTasks();
-	}
+    }
 }
