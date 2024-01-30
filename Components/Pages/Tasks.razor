@@ -164,21 +164,21 @@ else
                         <MudText>
                             <MudTooltip Color="Color.Primary" Placement="Placement.Bottom" Arrow="true">
                                 <ChildContent>
-                                    <MudIconButton DisableRipple="true" Icon="@Icons.Material.Filled.Task" Size="Size.Small" Color="Color.Primary" />
+                                    <MudIconButton DisableRipple="true" Icon="@Icons.Material.TwoTone.Task" Size="Size.Small" Color="Color.Primary" />
                                 </ChildContent>
                                 <TooltipContent>
-                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.Filled.Task" Color="Color.Tertiary" Size="Size.Small" /> @context.Task.Title</MudText>
+                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.Task" Color="Color.Tertiary" Size="Size.Small" /> @context.Task.Title</MudText>
                                     @if (!string.IsNullOrEmpty(context.Task.Description))
                                     {
-                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.Filled.Description" Color="Color.Tertiary" Size="Size.Small" /> @context.Task.Description</MudText>
+                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.Description" Color="Color.Tertiary" Size="Size.Small" /> @context.Task.Description</MudText>
                                     }
                                     @if (!context.Task.TargetCompleteDate.IsEmpty())
                                     {
-                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.Filled.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MM/dd/yyyy")</MudText>
+                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MM/dd/yyyy")</MudText>
                                     }
                                     @if (!context.Task.EstimateTimeSpan.Equals(TimeSpan.Zero))
                                     {
-                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.Filled.AccessTime" Color="Color.Tertiary" Size="Size.Small" /> Estimate: @context.Task.EstimateTimeSpan.ToString(@"d\d\ h\h\ mm\m")</MudText>
+                                    <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.AccessTime" Color="Color.Tertiary" Size="Size.Small" /> Estimate: @context.Task.EstimateTimeSpan.ToString(@"d\d\ h\h\ mm\m")</MudText>
                                     }
                                     @if (!context.Task.StartedDate.IsEmpty())
                                     {
@@ -194,7 +194,7 @@ else
                             {
                             <MudTooltip Color="Color.Warning" Placement="Placement.Bottom" Arrow="true" Style="width:297px;">
                                 <ChildContent>
-                                    <MudIconButton DisableRipple="true" Icon="@Icons.Material.Filled.Comment" Size="Size.Small" Color="Color.Warning" />
+                                    <MudIconButton DisableRipple="true" Icon="@Icons.Material.TwoTone.Comment" Size="Size.Small" Color="Color.Warning" />
                                 </ChildContent>
                                 <TooltipContent>
                                     <MudText Typo="Typo.body1" Align="Align.Left">@context.Task.Comment</MudText>
@@ -204,8 +204,8 @@ else
                             <b>@context.Task.Title</b>
                         </MudText>
                         <MudStack Row="true" Justify="Justify.FlexEnd">
-                            <MudIconButton DisableRipple="true" Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="((e) => EditTask(context.Task.Id))"/>
-                            <MudIconButton DisableRipple="true" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="((e) => DeleteTask(context.Task))"/>
+                            <MudIconButton DisableRipple="true" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Edit" Size="Size.Small" OnClick="((e) => EditTask(context.Task.Id))"/>
+                            <MudIconButton DisableRipple="true" Color="Color.Error" Icon="@Icons.Material.TwoTone.Delete" Size="Size.Small" OnClick="((e) => DeleteTask(context.Task))"/>
                         </MudStack>
                     </MudStack>
                 </MudPaper>
