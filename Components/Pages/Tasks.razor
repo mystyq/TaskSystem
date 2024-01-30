@@ -203,7 +203,7 @@ else
                             }
                             <b>@context.Task.Title</b>
                         </MudText>
-                        <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudStack Row="true" Justify="Justify.FlexEnd" Spacing="0">
                             <MudIconButton DisableRipple="true" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Edit" Size="Size.Small" OnClick="((e) => EditTask(context.Task.Id))"/>
                             <MudIconButton DisableRipple="true" Color="Color.Error" Icon="@Icons.Material.TwoTone.Delete" Size="Size.Small" OnClick="((e) => DeleteTask(context.Task))"/>
                         </MudStack>
