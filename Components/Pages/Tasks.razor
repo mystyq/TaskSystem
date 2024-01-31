@@ -278,8 +278,6 @@ else
 
     private bool CanDrop(KanbanTaskItem item, string identifier)
     {
-        identifier = identifier.Replace(" ", "");
-
         Enum.TryParse<Status>(identifier, out var status);
 
         return (status > item.Task.Status);
