@@ -159,7 +159,24 @@ else
             }
             </ChildContent>
             <ItemRenderer>
-                <MudPaper Elevation="25" Class="pa-3 border ma-1 mud-border-gray">
+                @{ 
+                    string borderStyle = string.Empty;
+                    switch(context.Task.Priority)
+                    {
+                        case Priority.High:
+                            borderStyle = "border-left:55px solid rgb(244,67,54) !important;";
+                            break;
+                        case Priority.Medium:
+                            borderStyle = "border-left:55px solid rgb(255,152,0) !important;";
+                            break;                            
+                        case Priority.Low:
+                            borderStyle = "border-left:55px solid rgb(87,87,87) !important;";
+                            break;
+                        case Priority.None:
+                            break;
+                    }
+                }
+                <MudPaper Elevation="25" Class="pa-3 border ma-1 mud-border-gray" Style="@borderStyle">
                     <MudStack Row="true" Justify="Justify.SpaceBetween">
                         <MudText>
                             <MudTooltip Color="Color.Primary" Placement="Placement.Bottom" Arrow="true">
