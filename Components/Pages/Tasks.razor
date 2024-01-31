@@ -288,6 +288,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         await GetTasks();
+        if (ActiveView.Equals("Kanban"))
+        {
+            PopulateKanbanTasks();
+        }        
         updateTitleService.UpdateTitle("Tasks Overview");
     }
 
@@ -300,10 +304,6 @@ else
             {
                 TabControl?.ActivatePanel(activeTab.Value);
             }
-        }
-        if (ActiveView.Equals("Kanban"))
-        {
-            PopulateKanbanTasks();
         }
     }
 
