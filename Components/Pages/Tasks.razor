@@ -56,9 +56,9 @@ else
                         <PropertyColumn Property="x => x.Priority" />
                         <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                             <CellTemplate>
-                                <MudStack Row="true" Style="gap:4px!important;">
-                                    <MudButton Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => EditTask(context.Item.Id))">Edit</MudButton>
-                                    <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => DeleteTask(context.Item))">Delete</MudButton>
+                                <MudStack Row="true" Spacing="0">
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))" />
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))" />
                                 </MudStack>
                             </CellTemplate>
                         </TemplateColumn>
@@ -99,9 +99,9 @@ else
                         <PropertyColumn Property="x => x.Priority" />
                         <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                             <CellTemplate>
-                                <MudStack Row="true" Style="gap:4px!important;">
-                                    <MudButton Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => EditTask(context.Item.Id))">Edit</MudButton>
-                                    <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => DeleteTask(context.Item))">Delete</MudButton>
+                                <MudStack Row="true" Spacing="0">
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))" />
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))" />
                                 </MudStack>
                             </CellTemplate>
                         </TemplateColumn>
@@ -126,9 +126,9 @@ else
                         <PropertyColumn Property="x => x.Priority" />
                         <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                             <CellTemplate>
-                                <MudStack Row="true" Style="gap:4px!important;">
-                                    <MudButton Color="Color.Secondary" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => EditTask(context.Item.Id))">Edit</MudButton>
-                                    <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => DeleteTask(context.Item))">Delete</MudButton>
+                                <MudStack Row="true" Spacing="0">
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))" />
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))" />
                                 </MudStack>
                             </CellTemplate>
                         </TemplateColumn>
@@ -369,6 +369,8 @@ else
             await TaskService.UpdateTaskAsync(task);
             await GetTasks();
             PopulateKanbanTasks();
+
+            StateHasChanged();
         }
     }
 
