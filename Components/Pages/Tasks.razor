@@ -11,7 +11,7 @@
 
 <MudStack Row="true">
     <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="GotoCreate">Create Task</MudButton>
-    <MudLink OnClick="SwitchActiveView">Switch to @(ActiveView == "Grid" ? "Kanban" : "Grid") view</MudLink>
+    <MudLink OnClick="SwitchActiveView" Class="user-select-none">Switch to @(ActiveView == "Grid" ? "Kanban" : "Grid") view</MudLink>
 </MudStack>
 
 @if (_tasksStaged is null || _tasksInProgress is null || _tasksComplete is null)
