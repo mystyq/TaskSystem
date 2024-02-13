@@ -377,6 +377,7 @@ else
     private async Task GetTasks()
     {
         _tasks = await TaskService.GetAllTasksAsync((x) => x.Archived == false);
+        _tasks = _tasks.OrderByDescending((x) => x.Priority).ToList();
         _tasksStaged = _tasks.Where((x) => x.Status == Data.Enums.Status.Staged).ToList();
         _tasksInProgress = _tasks.Where((x) => x.Status == Data.Enums.Status.InProgress).ToList();
         _tasksComplete = _tasks.Where((x) => x.Status == Data.Enums.Status.Complete).ToList();
