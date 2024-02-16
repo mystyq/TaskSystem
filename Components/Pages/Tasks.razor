@@ -210,7 +210,7 @@ else
                                         }
                                         @if (!context.Task.TargetCompleteDate.IsEmpty())
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MM/dd/yyyy")</MudText>
+                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MMM dd, yyyy")</MudText>
                                         }
                                         @if (!context.Task.EstimateTimeSpan.Equals(TimeSpan.Zero))
                                         {
