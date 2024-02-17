@@ -13,14 +13,14 @@ var connectionString = builder.Configuration.GetConnectionString("tasks.db");
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddMudServices(config =>
 {
-    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
     config.SnackbarConfiguration.PreventDuplicates = false;
     config.SnackbarConfiguration.NewestOnTop = false;
     config.SnackbarConfiguration.ShowCloseIcon = true;
     config.SnackbarConfiguration.VisibleStateDuration = 1500;
     config.SnackbarConfiguration.HideTransitionDuration = 1000;
     config.SnackbarConfiguration.ShowTransitionDuration = 250;
-    config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+    config.SnackbarConfiguration.SnackbarVariant = Variant.Outlined;
 });
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<UpdateTitleService>();

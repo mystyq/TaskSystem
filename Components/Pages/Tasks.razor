@@ -11,7 +11,7 @@
 
 <MudStack Row="true">
     <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="GotoCreate">Create Task</MudButton>
-    <MudLink OnClick="SwitchActiveView">Switch to @(ActiveView == "Grid" ? "Kanban" : "Grid") view</MudLink>
+    <MudButton Color="Color.Primary" Variant="Variant.Outlined" OnClick="SwitchActiveView">@(ActiveView == "Grid" ? "Kanban" : "Grid") view</MudButton>
 </MudStack>
 
 @if (_tasksStaged is null || _tasksInProgress is null || _tasksComplete is null)
@@ -191,7 +191,7 @@ else
                                 }
                                 else if (timeLeft.Days < 0)
                                 {
-                                    <MudIcon Color="Color.Warning" Icon="@Icons.Material.Sharp.Warning" Size="Size.Medium" />
+                                    <MudIcon Color="Color.Warning" Icon="@Icons.Material.Sharp.Warning" Size="Size.Medium" Style="filter: drop-shadow(1px 1px 1px #222);" />
                                 }
                             }
                             </MudStack>
@@ -210,7 +210,7 @@ else
                                         }
                                         @if (!context.Task.TargetCompleteDate.IsEmpty())
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MM/dd/yyyy")</MudText>
+                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MMM dd, yyyy")</MudText>
                                         }
                                         @if (!context.Task.EstimateTimeSpan.Equals(TimeSpan.Zero))
                                         {
@@ -377,6 +377,7 @@ else
     private async Task GetTasks()
     {
         _tasks = await TaskService.GetAllTasksAsync((x) => x.Archived == false);
+        _tasks = _tasks.OrderByDescending((x) => x.Priority).ToList();
         _tasksStaged = _tasks.Where((x) => x.Status == Data.Enums.Status.Staged).ToList();
         _tasksInProgress = _tasks.Where((x) => x.Status == Data.Enums.Status.InProgress).ToList();
         _tasksComplete = _tasks.Where((x) => x.Status == Data.Enums.Status.Complete).ToList();
