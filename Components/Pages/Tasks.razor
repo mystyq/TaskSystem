@@ -268,18 +268,18 @@ else
 
     private MudDropContainer<KanbanTaskItem>? _dropContainer;
 
-	private List<KanBanSections> _sections = new()
+    private List<KanbanSections> _sections = new()
     {
-        new KanBanSections(Status.Staged),
-        new KanBanSections(Status.InProgress),
-        new KanBanSections(Status.Complete),
+        new KanbanSections(Status.Staged),
+        new KanbanSections(Status.InProgress),
+        new KanbanSections(Status.Complete),
     };
 
-	public class KanBanSections
+	public class KanbanSections
 	{
 		public Status Status { get; init; }
 
-		public KanBanSections(Status status)
+		public KanbanSections(Status status)
 		{
 			Status = status;
 		}
