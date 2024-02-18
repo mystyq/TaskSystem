@@ -49,3 +49,22 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+.MudHeaderError .mud-dialog-title {
+    background:var(--mud-palette-error);
+    color:white;
+    text-shadow:1px 1px black;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.MudHeaderError .mud-button-close {
+    color:white;
+    filter: drop-shadow(1px 1px 0 black);
+}
+
+.MudHeaderError .mud-dialog-content {
+    margin-top:20px;
+    margin-bottom:20px;
+}
