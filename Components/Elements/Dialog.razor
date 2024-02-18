@@ -1,7 +1,4 @@
 <MudDialog Class="@($"MudHeader{Color.ToString()}")" DefaultFocus="DefaultFocus.LastChild">
-    <TitleContent>
-        <MudText Typo="Typo.h6">@TitleText</MudText>
-    </TitleContent>
     <DialogContent>
         <MudText>@ContentText</MudText>
     </DialogContent>
@@ -13,8 +10,6 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
-    [Parameter] public string TitleText { get; set; }
 
     [Parameter] public string ContentText { get; set; }
 

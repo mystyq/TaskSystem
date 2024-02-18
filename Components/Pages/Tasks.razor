@@ -351,7 +351,6 @@ else
     private async void DeleteTask(Data.Models.Task task)
     {
         var parameters = new DialogParameters<Dialog>();
-        parameters.Add(x => x.TitleText, "Archive Task");
         parameters.Add(x => x.ContentText, "Do you want to archive this task?");
         parameters.Add(x => x.ButtonText, "Archive");
         parameters.Add(x => x.Color, Color.Error);
@@ -362,7 +361,7 @@ else
             DisableBackdropClick = true,
             MaxWidth = MaxWidth.ExtraSmall
         };
-        var dialog = await DialogService.ShowAsync<Dialog>(string.Empty, parameters, options);
+        var dialog = await DialogService.ShowAsync<Dialog>("Archive Task", parameters, options);
         var result = await dialog.Result;
         if (!result.Canceled)
         {
