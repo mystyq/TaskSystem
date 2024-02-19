@@ -6,7 +6,7 @@
 
 <PageTitle>@(Id == null ? "Create" : "Edit") Task</PageTitle>
 
-<MudContainer Style="margin-bottom:200px;padding-left:0;padding-right:0;">
+<MudContainer Style="margin-bottom:200px;padding-left:0;padding-right:0;" MaxWidth="MaxWidth.ExtraExtraLarge">
     <EditForm EditContext="_editContext" OnValidSubmit="@HandleValidSubmit" FormName="CreateTaskForm">
         <DataAnnotationsValidator/>
         <MudTextField Label="@nameof(_task.Title)" @bind-Value="_task.Title" AutoFocus="true" For="@(() => _task.Title)" Class="mt-3"></MudTextField>
