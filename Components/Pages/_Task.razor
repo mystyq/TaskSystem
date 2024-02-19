@@ -6,33 +6,35 @@
 
 <PageTitle>@(Id == null ? "Create" : "Edit") Task</PageTitle>
 
-<EditForm EditContext="_editContext" OnValidSubmit="@HandleValidSubmit" FormName="CreateTaskForm">
-    <DataAnnotationsValidator/>
-    <MudTextField Label="@nameof(_task.Title)" @bind-Value="_task.Title" AutoFocus="true" For="@(() => _task.Title)" Class="mt-3"></MudTextField>
-    <MudTextField Label="@nameof(_task.Description)" @bind-Value="_task.Description" For="@(() => _task.Description)" Class="mt-3"></MudTextField>
-    <MudTextField Variant="Variant.Outlined" Label="@nameof(_task.Comment)" @bind-Value="_task.Comment" For="@(() => _task.Comment)" Class="mt-3" Lines="5"></MudTextField>
-    <MudDatePicker Label="Complete by date" @bind-Date="_task.TargetCompleteDate" For="@(() => _task.TargetCompleteDate)" Class="mt-3" />
-    <MudText Class="mt-3">Estimated Time</MudText>
-    <div class="input-group mb-3">
-        <MudNumericField @bind-Value="@_task.EstimateHours" Label="Hours"></MudNumericField>
-        <MudNumericField @bind-Value="@_task.EstimateMinutes" Label="Minutes"></MudNumericField>
-    </div>
-    <MudSelect @bind-Value="_task.Priority"
-            For="@(() => _task.Priority)"
-            SelectedValues="new Priority[] { _task.Priority }"
-            Label="Priority"
-            Placeholder="None"
-            T="Priority" 
-            Dense="true"
-            Variant="Variant.Text"
-            Class="mt-3">
-    @foreach (Priority priority in Enum.GetValues(typeof(Priority)))
-    {
-        <MudSelectItem T="Priority" Value="priority">@priority</MudSelectItem>
-    }
-    </MudSelect>
-    <MudButton Color="Color.Secondary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mt-3">Save</MudButton>
-</EditForm>
+<MudContainer Style="margin-bottom:200px;">
+    <EditForm EditContext="_editContext" OnValidSubmit="@HandleValidSubmit" FormName="CreateTaskForm">
+        <DataAnnotationsValidator/>
+        <MudTextField Label="@nameof(_task.Title)" @bind-Value="_task.Title" AutoFocus="true" For="@(() => _task.Title)" Class="mt-3"></MudTextField>
+        <MudTextField Label="@nameof(_task.Description)" @bind-Value="_task.Description" For="@(() => _task.Description)" Class="mt-3"></MudTextField>
+        <MudTextField Variant="Variant.Outlined" Label="@nameof(_task.Comment)" @bind-Value="_task.Comment" For="@(() => _task.Comment)" Class="mt-3" Lines="5"></MudTextField>
+        <MudDatePicker Label="Complete by date" @bind-Date="_task.TargetCompleteDate" For="@(() => _task.TargetCompleteDate)" Class="mt-3" />
+        <MudText Class="mt-3">Estimated Time</MudText>
+        <div class="input-group mb-3">
+            <MudNumericField @bind-Value="@_task.EstimateHours" Label="Hours"></MudNumericField>
+            <MudNumericField @bind-Value="@_task.EstimateMinutes" Label="Minutes"></MudNumericField>
+        </div>
+        <MudSelect @bind-Value="_task.Priority"
+                For="@(() => _task.Priority)"
+                SelectedValues="new Priority[] { _task.Priority }"
+                Label="Priority"
+                Placeholder="None"
+                T="Priority" 
+                Dense="true"
+                Variant="Variant.Text"
+                Class="mt-3">
+        @foreach (Priority priority in Enum.GetValues(typeof(Priority)))
+        {
+            <MudSelectItem T="Priority" Value="priority">@priority</MudSelectItem>
+        }
+        </MudSelect>
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mt-3">Save</MudButton>
+    </EditForm>
+</MudContainer>
 
 @implements IDisposable
 @inject UpdateTitleService updateTitleService
