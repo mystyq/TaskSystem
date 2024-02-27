@@ -490,3 +490,4 @@ Data/tasks.db
 settings.json
 *.db-shm
 *.db-wal
+*.sh
