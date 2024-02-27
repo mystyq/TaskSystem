@@ -305,10 +305,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         await GetTasks();
-        if (ActiveView.Equals("Kanban"))
-        {
-            PopulateKanbanTasks();
-        }
         UpdateTitleService.UpdateTitle("Tasks Overview");
     }
 
@@ -316,11 +312,15 @@ else
     {
         if (ActiveView.Equals("Grid"))
         {
-            var activeTab = await LocalStorage.GetItemAsync<int?>("ActiveTab"); 
+            var activeTab = await LocalStorage.GetItemAsync<int?>("ActiveTab");
             if (activeTab != null)
             {
                 TabControl?.ActivatePanel(activeTab.Value);
             }
+        }
+        if (ActiveView.Equals("Kanban"))
+        {
+            PopulateKanbanTasks();
         }
     }
 
