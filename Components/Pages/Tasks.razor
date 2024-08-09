@@ -358,7 +358,7 @@ else
         {
             CloseButton = true,
             CloseOnEscapeKey = true,
-            DisableBackdropClick = true,
+            BackdropClick = false,
             MaxWidth = MaxWidth.ExtraSmall
         };
         var dialog = await DialogService.ShowAsync<Dialog>("Archive Task", parameters, options);

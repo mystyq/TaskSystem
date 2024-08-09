@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <MudThemeProvider Theme="CurrentTheme" DefaultScrollbar="true" />
+<MudPopoverProvider/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
@@ -38,10 +39,10 @@
 
     private MudTheme CurrentTheme = new()
         {
-            Palette = new()
+            PaletteLight = new()
             {
                 Primary = "#056757",
-                Secondary = Colors.Grey.Darken3,
+                Secondary = Colors.Gray.Darken3,
                 AppbarBackground = "#002d38",
             }
         };
