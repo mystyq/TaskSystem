@@ -43,7 +43,7 @@ namespace TaskSystem.Services
         public async Task<Data.Models.Task> GetTaskByIdAsync(int? id)
         {
             var task = await _context.Tasks.FindAsync(id);
-            return task;
+            return task!;
         }
 
         public async Task<bool> AddTaskAsync(Data.Models.Task task)
