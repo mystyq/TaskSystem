@@ -12,7 +12,7 @@
         <MudTextField Label="@nameof(_task.Title)" @bind-Value="_task.Title" AutoFocus="true" For="@(() => _task.Title)" Class="mt-3"></MudTextField>
         <MudTextField Label="@nameof(_task.Description)" @bind-Value="_task.Description" For="@(() => _task.Description)" Class="mt-3"></MudTextField>
         <MudTextField Variant="Variant.Outlined" Label="@nameof(_task.Comment)" @bind-Value="_task.Comment" For="@(() => _task.Comment)" Class="mt-3" Lines="5"></MudTextField>
-        <MudDatePicker Label="Complete by date" @bind-Date="_task.TargetCompleteDate" For="@(() => _task.TargetCompleteDate)" Class="mt-3" />
+        <MudDatePicker Editable="true" Label="Complete by date" @bind-Date="_task.TargetCompleteDate" For="@(() => _task.TargetCompleteDate)" Class="mt-3" />
         <MudText Class="mt-3">Estimated Time</MudText>
         <div class="input-group mb-3">
             <MudNumericField @bind-Value="@_task.EstimateHours" Label="Hours"></MudNumericField>
