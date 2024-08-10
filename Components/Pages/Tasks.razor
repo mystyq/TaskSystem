@@ -363,7 +363,7 @@ else
         };
         var dialog = await DialogService.ShowAsync<Dialog>("Archive Task", parameters, options);
         var result = await dialog.Result;
-        if (!result.Canceled)
+        if (result is not null && !result.Canceled)
         {
             task.Archived = true;
             await TaskService.UpdateTaskAsync(task);
@@ -386,7 +386,7 @@ else
     private void PopulateKanbanTasks()
     {
         _kanbanTasks.Clear();
-        foreach (var task in _tasks)
+        foreach (var task in _tasks!)
         {
             _kanbanTasks.Add(new KanbanTaskItem(task));
         }
@@ -403,8 +403,8 @@ else
     private async Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
     {
         Enum.TryParse<Status>(info.DropzoneIdentifier, out var status);
-        info.Item.Task.SetStatus(status);
-        await TaskService.UpdateTaskAsync(info.Item.Task);
+        info?.Item?.Task.SetStatus(status);
+        await TaskService.UpdateTaskAsync(info?.Item?.Task!);
         PopulateKanbanTasks();
     }
 }
