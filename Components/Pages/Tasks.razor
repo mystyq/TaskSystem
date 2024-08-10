@@ -16,14 +16,16 @@
 
 @if (_tasksStaged is null || _tasksInProgress is null || _tasksComplete is null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
     if (ActiveView.Equals("Grid"))
     {
         <MudTabs @ref="@TabControl" KeepPanelsAlive="true" ActivePanelIndexChanged="@(async (index) => await LocalStorage.SetItemAsync<int?>("ActiveTab", index))" Position="Position.Top" Rounded="true" Border="false" Outlined="true" ApplyEffectsToContainer="true" Class="mt-5">
-            <MudTabPanel Text="Staged" BadgeData="(_tasksStaged.Count() > 0 ? _tasksStaged.Count() : null)">
+            <MudTabPanel Text="Staged" BadgeData="(_tasksStaged.Any() ? _tasksStaged.Count() : null)">
                 <MudDataGrid Items="@_tasksStaged" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                     <Columns>
                         <TemplateColumn Title="Title">
@@ -33,16 +35,16 @@ else
                                 </MudTooltip>
                             </CellTemplate>
                         </TemplateColumn>
-                        <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
-                        <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
+                        <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m"/>
+                        <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy"/>
                         <PropertyColumn Property="x => x.Status">
                             <CellTemplate>
                                 <MudSelect T="Status"
-                                        Dense="true"
-                                        Variant="Variant.Text"
-                                        Style="margin-top:-1px;"
-                                        SelectedValuesChanged="((e) => StatusChanged(e.First(), context.Item))"
-                                        SelectedValues="new Status[]{ context.Item.Status }">
+                                           Dense="true"
+                                           Variant="Variant.Text"
+                                           Style="margin-top:-1px;"
+                                           SelectedValuesChanged="((IEnumerable<Status> e) => StatusChanged(e.First(), context.Item))"
+                                           SelectedValues="new[] { context.Item.Status }">
                                     @foreach (Status status in Enum.GetValues(typeof(Status)))
                                     {
                                         if (context.Item.Status > status)
@@ -53,19 +55,19 @@ else
                                 </MudSelect>
                             </CellTemplate>
                         </PropertyColumn>
-                        <PropertyColumn Property="x => x.Priority" />
+                        <PropertyColumn Property="x => x.Priority"/>
                         <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                             <CellTemplate>
                                 <MudStack Row="true" Spacing="0">
-                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))" />
-                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))" />
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))"/>
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))"/>
                                 </MudStack>
                             </CellTemplate>
                         </TemplateColumn>
                     </Columns>
                 </MudDataGrid>
             </MudTabPanel>
-            <MudTabPanel Text="In Progress" BadgeData="(_tasksInProgress.Count() > 0 ? _tasksInProgress.Count() : null)">
+            <MudTabPanel Text="In Progress" BadgeData="(_tasksInProgress.Any() ? _tasksInProgress.Count() : null)">
                 <MudDataGrid Items="@_tasksInProgress" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                     <Columns>
                         <TemplateColumn Title="Title">
@@ -75,17 +77,17 @@ else
                                 </MudTooltip>
                             </CellTemplate>
                         </TemplateColumn>
-                        <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
-                        <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt" />
-                        <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
+                        <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m"/>
+                        <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt"/>
+                        <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy"/>
                         <PropertyColumn Property="x => x.Status">
                             <CellTemplate>
                                 <MudSelect T="Status"
-                                        Dense="true"
-                                        Variant="Variant.Text"
-                                        Style="margin-top:-1px;"
-                                        SelectedValuesChanged="((e) => StatusChanged(e.First(), context.Item))"
-                                        SelectedValues="new Status[]{ context.Item.Status }">
+                                           Dense="true"
+                                           Variant="Variant.Text"
+                                           Style="margin-top:-1px;"
+                                           SelectedValuesChanged="((IEnumerable<Status> e) => StatusChanged(e.First(), context.Item))"
+                                           SelectedValues="new[] { context.Item.Status }">
                                     @foreach (Status status in Enum.GetValues(typeof(Status)))
                                     {
                                         if (context.Item.Status > status)
@@ -96,19 +98,19 @@ else
                                 </MudSelect>
                             </CellTemplate>
                         </PropertyColumn>
-                        <PropertyColumn Property="x => x.Priority" />
+                        <PropertyColumn Property="x => x.Priority"/>
                         <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                             <CellTemplate>
                                 <MudStack Row="true" Spacing="0">
-                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))" />
-                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))" />
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))"/>
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))"/>
                                 </MudStack>
                             </CellTemplate>
                         </TemplateColumn>
                     </Columns>
                 </MudDataGrid>
             </MudTabPanel>
-            <MudTabPanel Text="Complete" BadgeData="(_tasksComplete.Count() > 0 ? _tasksComplete.Count() : null)">
+            <MudTabPanel Text="Complete" BadgeData="(_tasksComplete.Any() ? _tasksComplete.Count() : null)">
                 <MudDataGrid Items="@_tasksComplete" Filterable="true" SortMode="@SortMode.Multiple" Groupable="false" Dense="true" Outlined="true">
                     <Columns>
                         <TemplateColumn Title="Title">
@@ -118,17 +120,17 @@ else
                                 </MudTooltip>
                             </CellTemplate>
                         </TemplateColumn>
-                        <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m" />
-                        <PropertyColumn Property="x => x.ActualTimeSpan" Title="Actual" Format="d\d\ h\h\ mm\m\ s\s" />
-                        <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt" />
-                        <PropertyColumn Property="x => x.CompletedDate" Title="Completed" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt" />
-                        <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy" />
-                        <PropertyColumn Property="x => x.Priority" />
+                        <PropertyColumn Property="x => x.EstimateTimeSpan" Title="Estimate" Format="d\d\ h\h\ mm\m"/>
+                        <PropertyColumn Property="x => x.ActualTimeSpan" Title="Actual" Format="d\d\ h\h\ mm\m\ s\s"/>
+                        <PropertyColumn Property="x => x.StartedDate" Title="Started" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt"/>
+                        <PropertyColumn Property="x => x.CompletedDate" Title="Completed" Format="MM/dd/yyyy\ \- hh\:mm\:ss tt"/>
+                        <PropertyColumn Property="x => x.TargetCompleteDate" Title="Complete by" Format="MM/dd/yyyy"/>
+                        <PropertyColumn Property="x => x.Priority"/>
                         <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
                             <CellTemplate>
                                 <MudStack Row="true" Spacing="0">
-                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))" />
-                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))" />
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Secondary" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => EditTask(context.Item.Id))"/>
+                                    <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Medium" OnClick="@(() => DeleteTask(context.Item))"/>
                                 </MudStack>
                             </CellTemplate>
                         </TemplateColumn>
@@ -139,31 +141,33 @@ else
     }
     else if (ActiveView.Equals("Kanban"))
     {
-        <MudDropContainer 
-            T="KanbanTaskItem" 
-            @ref="_dropContainer" 
-            Items="@_kanbanTasks" 
-            ItemsSelector="@((item,column) => item.Task.Status.ToString() == column)"
+        <MudDropContainer
+            T="KanbanTaskItem"
+            @ref="_dropContainer"
+            Items="@_kanbanTasks"
+            ItemsSelector="@((item, column) => item.Task.Status.ToString() == column)"
             ItemDropped="KanbanStatusChanged"
             CanDropClass="shadow-lg"
             NoDropClass="mud-border-error"
-            CanDrop="@((item,identifier) => CanDrop(item, identifier))" 
+            CanDrop="@((item, identifier) => CanDrop(item, identifier))"
             Class="d-flex flex-wrap flex-grow-1 border mud-border-gray rounded-lg mt-3 mud-background-gray">
             <ChildContent>
-            @foreach (var item in _sections)
-            {
-                <MudStack AlignItems="AlignItems.Center" Class="ma-4" Style="flex:1;">
-                    <MudText Typo="Typo.subtitle2"><b>@item.Status.GetDisplayName()</b></MudText>
-                    <MudPaper Elevation="0" Width="100%" Height="100%" MinHeight="400px" Class="p-0 m-1 d-flex flex-column border mud-border-gray">
-                        <MudDropZone T="KanbanTaskItem" Identifier="@item.Status.ToString()" Class="mud-height-full" />
-                    </MudPaper>
-                </MudStack>
-            }
+                @foreach (var item in _sections)
+                {
+                    <MudStack AlignItems="AlignItems.Center" Class="ma-4" Style="flex:1;">
+                        <MudText Typo="Typo.subtitle2">
+                            <b>@item.Status.GetDisplayName()</b>
+                        </MudText>
+                        <MudPaper Elevation="0" Width="100%" Height="100%" MinHeight="400px" Class="p-0 m-1 d-flex flex-column border mud-border-gray">
+                            <MudDropZone T="KanbanTaskItem" Identifier="@item.Status.ToString()" Class="mud-height-full"/>
+                        </MudPaper>
+                    </MudStack>
+                }
             </ChildContent>
             <ItemRenderer>
-                @{ 
+                @{
                     string style = string.Empty;
-                    switch(context.Task.Priority)
+                    switch (context.Task.Priority)
                     {
                         case Priority.High:
                             style = "background:rgba(244,67,54,0.8)!important;border:4px solid rgba(244,67,54,0.25)!important;";
@@ -176,73 +180,78 @@ else
                             style = "background:rgba(66,66,66,0.8)!important;border:4px solid rgba(66,66,66,0.25)!important;";
                             break;
                     }
+
                     style += "margin:-12px;min-width:55px;color:white;text-shadow:1px 1px 2px black";
                 }
                 <MudPaper Elevation="25" Class="pa-3 border ma-1 mud-border-gray">
                     <MudStack Row="true">
                         <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Style="@style" Class="rounded-start">
                             <MudStack Spacing="0" AlignItems="AlignItems.Center">
-                            @if (!context.Task.TargetCompleteDate.IsEmpty())
-                            {
-                                TimeSpan timeLeft = -(DateTime.Now - (DateTime)context.Task.TargetCompleteDate!);
-                                if (timeLeft.Days > 0)
+                                @if (!context.Task.TargetCompleteDate.IsEmpty())
                                 {
-                                    <MudText>@string.Format("{0}d", timeLeft.Days)</MudText>
+                                    TimeSpan timeLeft = -(DateTime.Now - (DateTime)context.Task.TargetCompleteDate!);
+                                    if (timeLeft.Days > 0)
+                                    {
+                                        <MudText>@($"{timeLeft.Days}d")</MudText>
+                                    }
+                                    else if (timeLeft.Days < 0)
+                                    {
+                                        <MudIcon Color="Color.Warning" Icon="@Icons.Material.Sharp.Warning" Size="Size.Medium" Style="filter: drop-shadow(1px 1px 1px #222);"/>
+                                    }
                                 }
-                                else if (timeLeft.Days < 0)
-                                {
-                                    <MudIcon Color="Color.Warning" Icon="@Icons.Material.Sharp.Warning" Size="Size.Medium" Style="filter: drop-shadow(1px 1px 1px #222);" />
-                                }
-                            }
                             </MudStack>
                         </MudStack>
                         <MudStack Row="true" Justify="Justify.FlexStart">
                             <MudText>
                                 <MudTooltip Color="Color.Primary" Placement="Placement.Bottom" Arrow="true" Style="width:297px;">
                                     <ChildContent>
-                                        <MudIconButton Ripple="true" Icon="@Icons.Material.TwoTone.Task" Size="Size.Small" Color="Color.Primary" />
+                                        <MudIconButton Ripple="true" Icon="@Icons.Material.TwoTone.Task" Size="Size.Small" Color="Color.Primary"/>
                                     </ChildContent>
                                     <TooltipContent>
-                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.Task" Color="Color.Tertiary" Size="Size.Small" /> @context.Task.Title</MudText>
+                                        <MudText Typo="Typo.body1" Align="Align.Left">
+                                            <MudIcon Icon="@Icons.Material.TwoTone.Task" Color="Color.Tertiary" Size="Size.Small"/> @context.Task.Title
+                                        </MudText>
                                         @if (!string.IsNullOrEmpty(context.Task.Description))
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.Description" Color="Color.Tertiary" Size="Size.Small" /> @context.Task.Description</MudText>
+                                            <MudText Typo="Typo.body1" Align="Align.Left">
+                                                <MudIcon Icon="@Icons.Material.TwoTone.Description" Color="Color.Tertiary" Size="Size.Small"/> @context.Task.Description
+                                            </MudText>
                                         }
                                         @if (!context.Task.TargetCompleteDate.IsEmpty())
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small" /> Deadline: @context.Task.TargetCompleteDate?.ToString("MMM dd, yyyy")</MudText>
+                                            <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.CalendarToday" Color="Color.Tertiary" Size="Size.Small"/> Deadline: @context.Task.TargetCompleteDate?.ToString("MMM dd, yyyy")</MudText>
                                         }
                                         @if (!context.Task.EstimateTimeSpan.Equals(TimeSpan.Zero))
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.AccessTime" Color="Color.Tertiary" Size="Size.Small" /> Estimate: @context.Task.EstimateTimeSpan.ToString(@"d\d\ h\h\ mm\m")</MudText>
+                                            <MudText Typo="Typo.body1" Align="Align.Left"><MudIcon Icon="@Icons.Material.TwoTone.AccessTime" Color="Color.Tertiary" Size="Size.Small"/> Estimate: @context.Task.EstimateTimeSpan.ToString(@"d\d\ h\h\ mm\m")</MudText>
                                         }
                                         @if (!context.Task.StartedDate.IsEmpty())
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left">Started: @context.Task.StartedDate.ToString(@"MM/dd/yyyy\ \- hh\:mm tt")</MudText>
+                                            <MudText Typo="Typo.body1" Align="Align.Left">Started: @context.Task.StartedDate.ToString(@"MM/dd/yyyy\ \- hh\:mm tt")</MudText>
                                         }
                                         @if (!context.Task.CompletedDate.IsEmpty())
                                         {
-                                        <MudText Typo="Typo.body1" Align="Align.Left">Completed: @context.Task.CompletedDate.ToString(@"MM/dd/yyyy\ \- hh\:mm tt")</MudText>
+                                            <MudText Typo="Typo.body1" Align="Align.Left">Completed: @context.Task.CompletedDate.ToString(@"MM/dd/yyyy\ \- hh\:mm tt")</MudText>
                                         }
                                     </TooltipContent>
                                 </MudTooltip>
                                 @if (!string.IsNullOrEmpty(context.Task.Comment))
                                 {
-                                <MudTooltip Color="Color.Warning" Placement="Placement.Bottom" Arrow="true" Style="width:297px;">
-                                    <ChildContent>
-                                        <MudIconButton Ripple="true" Icon="@Icons.Material.TwoTone.Comment" Size="Size.Small" Color="Color.Warning" />
-                                    </ChildContent>
-                                    <TooltipContent>
-                                        <MudText Typo="Typo.body1" Align="Align.Left">@context.Task.Comment</MudText>
-                                    </TooltipContent>
-                                </MudTooltip>
+                                    <MudTooltip Color="Color.Warning" Placement="Placement.Bottom" Arrow="true" Style="width:297px;">
+                                        <ChildContent>
+                                            <MudIconButton Ripple="true" Icon="@Icons.Material.TwoTone.Comment" Size="Size.Small" Color="Color.Warning"/>
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            <MudText Typo="Typo.body1" Align="Align.Left">@context.Task.Comment</MudText>
+                                        </TooltipContent>
+                                    </MudTooltip>
                                 }
                                 <b>@context.Task.Title</b>
                             </MudText>
                         </MudStack>
                         <MudStack Row="true" Justify="Justify.FlexEnd" Spacing="0" Style="margin-left: auto;">
-                            <MudIconButton Ripple="true" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Edit" Size="Size.Small" OnClick="((e) => EditTask(context.Task.Id))"/>
-                            <MudIconButton Ripple="true" Color="Color.Error" Icon="@Icons.Material.TwoTone.Delete" Size="Size.Small" OnClick="((e) => DeleteTask(context.Task))"/>
+                            <MudIconButton Ripple="true" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Edit" Size="Size.Small" OnClick="(() => EditTask(context.Task.Id))"/>
+                            <MudIconButton Ripple="true" Color="Color.Error" Icon="@Icons.Material.TwoTone.Delete" Size="Size.Small" OnClick="(() => DeleteTask(context.Task))"/>
                         </MudStack>
                     </MudStack>
                 </MudPaper>
@@ -260,40 +269,30 @@ else
 
     private List<Data.Models.Task>? _tasksComplete;
 
-    private List<KanbanTaskItem> _kanbanTasks = new();
+    private readonly List<KanbanTaskItem> _kanbanTasks = new();
 
     private string ActiveView { get; set; } = "Kanban";
-    
+
     private MudTabs? TabControl { get; set; }
 
     private MudDropContainer<KanbanTaskItem>? _dropContainer;
 
-    private List<KanbanSections> _sections = new()
-    {
+    private readonly List<KanbanSections> _sections =
+    [
         new KanbanSections(Status.Staged),
         new KanbanSections(Status.InProgress),
-        new KanbanSections(Status.Complete),
-    };
+        new KanbanSections(Status.Complete)
+    ];
 
-	public class KanbanSections
-	{
-		public Status Status { get; init; }
+    public class KanbanSections(Status status)
+    {
+        public Status Status { get; init; } = status;
+    }
 
-		public KanbanSections(Status status)
-		{
-			Status = status;
-		}
-	}
-
-	public class KanbanTaskItem
-	{
-        public Data.Models.Task Task { get; set; }
-
-		public KanbanTaskItem(Data.Models.Task task)
-		{
-            Task = task;
-		}
-	}
+    public class KanbanTaskItem(Data.Models.Task task)
+    {
+        public Data.Models.Task Task { get; } = task;
+    }
 
     private bool CanDrop(KanbanTaskItem item, string identifier)
     {
@@ -308,7 +307,8 @@ else
         if (ActiveView.Equals("Kanban"))
         {
             PopulateKanbanTasks();
-        }        
+        }
+
         UpdateTitleService.UpdateTitle("Tasks Overview");
     }
 
@@ -326,7 +326,7 @@ else
 
     private async Task SwitchActiveView(object sender)
     {
-        switch(ActiveView)
+        switch (ActiveView)
         {
             case "Grid":
                 ActiveView = "Kanban";
@@ -335,6 +335,7 @@ else
                 ActiveView = "Grid";
                 break;
         }
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -350,10 +351,12 @@ else
 
     private async void DeleteTask(Data.Models.Task task)
     {
-        var parameters = new DialogParameters<Dialog>();
-        parameters.Add(x => x.ContentText, "Do you want to archive this task?");
-        parameters.Add(x => x.ButtonText, "Archive");
-        parameters.Add(x => x.Color, Color.Error);
+        var parameters = new DialogParameters<Dialog>
+        {
+            { x => x.ContentText, "Do you want to archive this task?" },
+            { x => x.ButtonText, "Archive" },
+            { x => x.Color, Color.Error }
+        };
         var options = new DialogOptions()
         {
             CloseButton = true,
@@ -378,9 +381,9 @@ else
     {
         _tasks = await TaskService.GetAllTasksAsync((x) => x.Archived == false);
         _tasks = _tasks.OrderByDescending((x) => x.Priority).ToList();
-        _tasksStaged = _tasks.Where((x) => x.Status == Data.Enums.Status.Staged).ToList();
-        _tasksInProgress = _tasks.Where((x) => x.Status == Data.Enums.Status.InProgress).ToList();
-        _tasksComplete = _tasks.Where((x) => x.Status == Data.Enums.Status.Complete).ToList();
+        _tasksStaged = _tasks.Where((x) => x.Status == Status.Staged).ToList();
+        _tasksInProgress = _tasks.Where((x) => x.Status == Status.InProgress).ToList();
+        _tasksComplete = _tasks.Where((x) => x.Status == Status.Complete).ToList();
     }
 
     private void PopulateKanbanTasks()
@@ -390,6 +393,7 @@ else
         {
             _kanbanTasks.Add(new KanbanTaskItem(task));
         }
+
         _dropContainer?.Refresh();
     }
 
@@ -403,8 +407,9 @@ else
     private async Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
     {
         Enum.TryParse<Status>(info.DropzoneIdentifier, out var status);
-        info?.Item?.Task.SetStatus(status);
-        await TaskService.UpdateTaskAsync(info?.Item?.Task!);
+        info.Item?.Task.SetStatus(status);
+        await TaskService.UpdateTaskAsync(info.Item?.Task!);
         PopulateKanbanTasks();
     }
+
 }
