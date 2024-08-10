@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider Theme="CurrentTheme" DefaultScrollbar="true" />
+<MudThemeProvider Theme="_currentTheme" DefaultScrollbar="true" />
 <MudPopoverProvider/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
@@ -31,15 +31,15 @@
 </div>
 
 @implements IDisposable
-@inject UpdateTitleService updateTitleService
+@inject UpdateTitleService UpdateTitleService
 @code {
     private string Title { get; set; } = string.Empty;
 
     private bool DrawerOpen { get; set; } = true;
 
-    private MudTheme CurrentTheme = new()
+    private readonly MudTheme _currentTheme = new()
         {
-            PaletteLight = new()
+            PaletteLight = new PaletteLight()
             {
                 Primary = "#056757",
                 Secondary = Colors.Gray.Darken3,
@@ -49,7 +49,7 @@
 
     protected override void OnInitialized()
     {
-        updateTitleService.UpdateTitleChanged += HandleUpdateTitleChanged!;
+        UpdateTitleService.UpdateTitleChanged += HandleUpdateTitleChanged!;
         base.OnInitialized();
     }
 
@@ -61,9 +61,9 @@
 
     public void Dispose()
     {
-        if (updateTitleService is not null)
+        if (UpdateTitleService is not null)
         {
-            updateTitleService.UpdateTitleChanged -= HandleUpdateTitleChanged!;
+            UpdateTitleService.UpdateTitleChanged -= HandleUpdateTitleChanged!;
         }
     }
 }
