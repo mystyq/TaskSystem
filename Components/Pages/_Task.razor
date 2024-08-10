@@ -3,6 +3,9 @@
 @rendermode InteractiveServer
 @inject ITaskService TaskService
 @inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+@inject UpdateTitleService UpdateTitleService
+@implements IDisposable
 
 <PageTitle>@(Id == null ? "Create" : "Edit") Task</PageTitle>
 
@@ -12,72 +15,60 @@
         <MudTextField Label="@nameof(_task.Title)" @bind-Value="_task.Title" AutoFocus="true" For="@(() => _task.Title)" Class="mt-3"></MudTextField>
         <MudTextField Label="@nameof(_task.Description)" @bind-Value="_task.Description" For="@(() => _task.Description)" Class="mt-3"></MudTextField>
         <MudTextField Variant="Variant.Outlined" Label="@nameof(_task.Comment)" @bind-Value="_task.Comment" For="@(() => _task.Comment)" Class="mt-3" Lines="5"></MudTextField>
-        <MudDatePicker Adornment="Adornment.Start" IconSize="Size.Small" Editable="true" Label="Complete by date" @bind-Date="_task.TargetCompleteDate" For="@(() => _task.TargetCompleteDate)" Class="mt-3" />
+        <MudDatePicker Adornment="Adornment.Start" IconSize="Size.Small" Editable="true" Label="Complete by date" @bind-Date="_task.TargetCompleteDate" For="@(() => _task.TargetCompleteDate)" Class="mt-3"/>
         <MudText Class="mt-3">Estimated Time</MudText>
         <div class="input-group mb-3">
             <MudNumericField @bind-Value="@_task.EstimateHours" Label="Hours"></MudNumericField>
             <MudNumericField @bind-Value="@_task.EstimateMinutes" Label="Minutes"></MudNumericField>
         </div>
         <MudSelect @bind-Value="_task.Priority"
-                For="@(() => _task.Priority)"
-                SelectedValues="new Priority[] { _task.Priority }"
-                Label="Priority"
-                Placeholder="None"
-                T="Priority" 
-                Dense="true"
-                Variant="Variant.Text"
-                Class="mt-3">
-        @foreach (Priority priority in Enum.GetValues(typeof(Priority)))
-        {
-            <MudSelectItem T="Priority" Value="priority">@priority</MudSelectItem>
-        }
+                   For="@(() => _task.Priority)"
+                   SelectedValues="new[] { _task.Priority }"
+                   Label="Priority"
+                   Placeholder="None"
+                   T="Priority"
+                   Dense="true"
+                   Variant="Variant.Text"
+                   Class="mt-3">
+            @foreach (Priority priority in Enum.GetValues(typeof(Priority)))
+            {
+                <MudSelectItem T="Priority" Value="priority">@priority</MudSelectItem>
+            }
         </MudSelect>
         <MudButton Color="Color.Secondary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mt-3">Save</MudButton>
     </EditForm>
 </MudContainer>
 
-@implements IDisposable
-@inject UpdateTitleService updateTitleService
-@code {
+@code
+{
     private Data.Models.Task _task = new();
 
     private EditContext? _editContext;
 
     private ValidationMessageStore? _messageStore;
 
-    [Parameter]
-    public int? Id { get; set; }
+    [Parameter] public int? Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        if(Id is not null)
+        if (Id is not null)
         {
-            var task = await TaskService.GetTaskByIdAsync(Id);
-            if(task is not null)
-            {
-                _task = task;
-            }
+            _task = await TaskService.GetTaskByIdAsync(Id);
         }
     }
+
     protected override void OnInitialized()
     {
-        _editContext = new(_task);
+        _editContext = new EditContext(_task);
         _editContext.OnValidationRequested += HandleValidationRequested;
-        _messageStore = new(_editContext);
+        _messageStore = new ValidationMessageStore(_editContext);
 
-        if(Id is null)
-        {
-            updateTitleService.UpdateTitle("Create Task");
-        }
-        else
-        {
-            updateTitleService.UpdateTitle("Edit Task");
-        }
+        UpdateTitleService.UpdateTitle(Id is null ? "Create Task" : "Edit Task");
     }
 
     private async void HandleValidSubmit()
     {
-        var success = false;
+        bool success;
         if (Id is not null)
         {
             success = await TaskService.UpdateTaskAsync(_task);
@@ -96,6 +87,7 @@
         {
             Snackbar.Add("Error Saving Task", Severity.Error);
         }
+
         NavigationManager.NavigateTo("tasks");
     }
 

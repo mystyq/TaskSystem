@@ -6,6 +6,7 @@
 @inject ILocalStorageService LocalStorage
 @inject IDialogService DialogService
 @inject UpdateTitleService UpdateTitleService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Tasks Overview</PageTitle>
 
@@ -194,6 +195,17 @@ else
                                     {
                                         <MudText>@($"{timeLeft.Days}d")</MudText>
                                     }
+                                    else if (timeLeft.Days == 0)
+                                    {
+                                        if (timeLeft.Hours > 0)
+                                        {
+                                            <MudText>@($"{timeLeft.Hours}h")</MudText>
+                                        }
+                                        else
+                                        {
+                                            <MudIcon Color="Color.Warning" Icon="@Icons.Material.Sharp.Warning" Size="Size.Medium" Style="filter: drop-shadow(1px 1px 1px #222);"/>
+                                        }
+                                    }
                                     else if (timeLeft.Days < 0)
                                     {
                                         <MudIcon Color="Color.Warning" Icon="@Icons.Material.Sharp.Warning" Size="Size.Medium" Style="filter: drop-shadow(1px 1px 1px #222);"/>
@@ -269,7 +281,7 @@ else
 
     private List<Data.Models.Task>? _tasksComplete;
 
-    private readonly List<KanbanTaskItem> _kanbanTasks = new();
+    private readonly List<KanbanTaskItem> _kanbanTasks = [];
 
     private string ActiveView { get; set; } = "Kanban";
 
