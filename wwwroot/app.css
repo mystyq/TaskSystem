@@ -68,3 +68,28 @@ h1:focus {
     margin-top:20px;
     margin-bottom:20px;
 }
+
+.priority-none, .priority-low {
+    background:rgba(66,66,66,0.8);
+    border:4px solid rgba(66,66,66,0.25);
+}
+
+.priority-medium {
+    background:rgba(255,152,0,0.7);
+    border:4px solid rgba(255,152,0,0.25);
+}
+
+.priority-high {
+    background: rgba(244,67,54,0.8);
+    border: 4px solid rgba(244,67,54,0.25);
+}
+
+.priority-none,
+.priority-low,
+.priority-medium,
+.priority-high {
+    margin:-12px;
+    min-width:55px;
+    color:white;
+    text-shadow:1px 1px 2px black;
+}

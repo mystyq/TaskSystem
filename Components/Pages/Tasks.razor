@@ -167,26 +167,26 @@ else
             </ChildContent>
             <ItemRenderer>
                 @{
-                    string style = string.Empty;
+                    var style = "rounded-start ";
                     switch (context.Task.Priority)
                     {
                         case Priority.High:
-                            style = "background:rgba(244,67,54,0.8)!important;border:4px solid rgba(244,67,54,0.25)!important;";
+                            style += "priority-high";
                             break;
                         case Priority.Medium:
-                            style = "background:rgba(255,152,0,0.7)!important;border:4px solid rgba(255,152,0,0.25)!important;";
+                            style += "priority-medium";
                             break;
                         case Priority.Low:
+                            style += "priority-low";
+                            break;
                         case Priority.None:
-                            style = "background:rgba(66,66,66,0.8)!important;border:4px solid rgba(66,66,66,0.25)!important;";
+                            style += "priority-none";
                             break;
                     }
-
-                    style += "margin:-12px;min-width:55px;color:white;text-shadow:1px 1px 2px black";
                 }
                 <MudPaper Elevation="25" Class="pa-3 border ma-1 mud-border-gray">
                     <MudStack Row="true">
-                        <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Style="@style" Class="rounded-start">
+                        <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Class="@style">
                             <MudStack Spacing="0" AlignItems="AlignItems.Center">
                                 @if (!context.Task.TargetCompleteDate.IsEmpty())
                                 {
@@ -272,7 +272,8 @@ else
     }
 }
 
-@code {
+@code
+{
     private List<Data.Models.Task>? _tasks;
 
     private List<Data.Models.Task>? _tasksStaged;
@@ -298,7 +299,7 @@ else
 
     public class KanbanSections(Status status)
     {
-        public Status Status { get; init; } = status;
+        public Status Status { get; } = status;
     }
 
     public class KanbanTaskItem(Data.Models.Task task)
@@ -423,5 +424,4 @@ else
         await TaskService.UpdateTaskAsync(info.Item?.Task!);
         PopulateKanbanTasks();
     }
-
 }
