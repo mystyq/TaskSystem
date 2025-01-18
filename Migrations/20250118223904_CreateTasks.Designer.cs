@@ -11,14 +11,14 @@ using TaskSystem.Data;
 namespace TaskSystem.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240112191922_Add TargetCompleteDate_CompletedDate_EstimateDuration Columns to Task table")]
-    partial class AddTargetCompleteDate_CompletedDate_EstimateDurationColumnstoTasktable
+    [Migration("20250118223904_CreateTasks")]
+    partial class CreateTasks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
             modelBuilder.Entity("TaskSystem.Data.Models.Task", b =>
                 {
@@ -26,28 +26,31 @@ namespace TaskSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool?>("Archived")
+                    b.Property<bool>("Archived")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comment")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("CompletedDate")
+                    b.Property<DateTime>("CompletedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("DateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("EstimateDuration")
+                    b.Property<double>("EstimateDuration")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("Priority")
+                    b.Property<int>("Priority")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Status")
+                    b.Property<DateTime>("StartedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("TargetCompleteDate")
