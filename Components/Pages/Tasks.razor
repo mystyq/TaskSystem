@@ -362,7 +362,7 @@ else
         NavigationManager.NavigateTo($"task/{id}");
     }
 
-    private async void DeleteTask(Data.Models.Task task)
+    private async Task DeleteTask(Data.Models.Task task)
     {
         var parameters = new DialogParameters<Dialog>
         {
@@ -417,7 +417,7 @@ else
         await GetTasks();
     }
 
-    private async System.Threading.Tasks.Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
+    private async Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
     {
         Enum.TryParse<Status>(info.DropzoneIdentifier, out var status);
         info.Item?.Task.SetStatus(status);
