@@ -292,9 +292,9 @@ else
 
     private readonly List<KanbanSections> _sections =
     [
-        new KanbanSections(Status.Staged),
-        new KanbanSections(Status.InProgress),
-        new KanbanSections(Status.Complete)
+        new (Status.Staged),
+        new (Status.InProgress),
+        new (Status.Complete)
     ];
 
     public class KanbanSections(Status status)
@@ -417,7 +417,7 @@ else
         await GetTasks();
     }
 
-    private async Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
+    private async System.Threading.Tasks.Task KanbanStatusChanged(MudItemDropInfo<KanbanTaskItem> info)
     {
         Enum.TryParse<Status>(info.DropzoneIdentifier, out var status);
         info.Item?.Task.SetStatus(status);
